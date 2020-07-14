@@ -3,7 +3,7 @@
 "
 " By Eyal Karni
 "
-:let $PYTHONPATHCOC='/Users/eyalkarni/impacket/impacket;/usr/local/lib/python2.7/site-packages;/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages'
+":let $PYTHONPATHCOC='/Users/eyalkarni/impacket/impacket;/usr/local/lib/python2.7/site-packages;/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages'
 " 
 " I will be applying some adaptations on my computer. That is only if the folder exists.
 " some tips : remember commenter \Cc , remember <c-u>  and <M-Bslash> windows , remember \C
@@ -91,7 +91,7 @@ if g:on_ek_computer
 	let g:python3_host_prog= "/Users/eyalkarni/.pyenv/shims/python3"
 endif
 let g:vimloc=split(&packpath,',')[0]
-let g:yanktools_main_key = 'Z'
+"let g:yanktools_main_key = 'Z'
 ":20verbose
 "message log
 redi >> ~/.vim/vimlog.log
@@ -168,7 +168,7 @@ Plug 'tmhedberg/SimpylFold'
 Plug 'inkarkat/vim-ingo-library'
 endif
 Plug 'octol/vim-cpp-enhanced-highlight' "additional vim c++ syntax highlighting
-"Plug 'valloric/youcompleteme'
+Plug 'valloric/youcompleteme'
 
 Plug 'vim-scripts/EnhancedJumps'
 Plug 'Vimjas/vim-python-pep8-indent'
@@ -532,7 +532,7 @@ imap <M-Up> <esc>
 imap <M-Left> <esc>
 imap <M-Right> <esc>
 
-nmap <nowait> t :w<CR>
+nmap <nowait> t :let g:init=1<CR>:w<CR>
 nnoremap \t t
 nmap <M-Down> <Plug>(grammarous-move-to-next-error)	
 nmap <M-Up> <Plug>(grammarous-move-to-previous-error)
@@ -597,7 +597,10 @@ au VimLeave * nested call OnEnd()
 au ExitPre * nested call timer_stop(g:autosaveWS)
 au SwapExists * nested call OnSwap() 
 au ExitPre call StopTimerFunc() 
+
+"Final autocmds for saving files
 autocmd filetype vim let b:auto_save = 1
+autocmd filetype python let b:auto_save = 1
 
 function! OnSwap()
 	let swap_info = swapinfo(v:swapname)
@@ -1529,6 +1532,10 @@ let g:NETRPreviewDefaultOn=0
 :autocmd FileType netranger cmap <buffer> <M-Right> <CR>:call DoOpen()<CR>Y
 :autocmd FileType netranger nmap <buffer> <M-left> :call DoClose()<CR>
 :autocmd FileType netranger cmap <buffer> <M-left> :call DoClose()<CR>
+:autocmd FileType netranger nmap <buffer> <C-K> :call DoOpen()<CR>Y
+:autocmd FileType netranger cmap <buffer> <C-K> <CR>:call DoOpen()<CR>Y
+:autocmd FileType netranger nmap <buffer> <C-N> :call DoClose()<CR>
+:autocmd FileType netranger cmap <buffer> <C-N> :call DoClose()<CR>
 :autocmd FileType netranger nnoremap <buffer> cd :PY netranger.api.NETRApi.ranger.NETRVimCD()<CR>
 :autocmd FileType netranger nnoremap <buffer> CD :exe "edit ". getcwd()<CR>
 ":autocmd FileType netranger nnoremap <buffer> <CR>  :call feedkeys("ep")<CR>
@@ -2046,8 +2053,12 @@ nmap <leader>tt :call TermOV(0)<CR>li
 nmap <leader>Tt :call TermOV(1)<CR>li
 "sets python 2/3
 "nmap <leader>s2 :let $PYTHONPATH='/usr/local/lib/python2.7/site-packages:/Users/eyalkarni/utils/jmpacket:/Users/eyalkarni/utils:/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages'<CR>:CocCommand python.setInterpreter<CR>
+"'/Users/Library/Frameworks/Python.framework/Versions/2.7/bin/python
 "nmap <leader>s3 :let $PYTHONPATH='/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/'<CR>:CocCommand python.setInterpreter<CR>
-nmap <leader>s3  :call coc#config('python', {'jediEnabled': v:false, 'pythonPath': '/Library/Frameworks/Python.framework/Versions/3.7/bin/python3'})<CR>
+"TODO:: to add site-packages
+nmap <leader>s3  :call coc#config('python', {'jediEnabled': v:false, 'pythonPath': '/Library/Frameworks/Python.framework/Versions/3.7/bin/python3'})<CR>:CocRestart<CR>
+nmap <leader>s2  :call coc#config('python', {'jediEnabled': v:false, 'pythonPath': '/Library/Frameworks/Python.framework/Versions/2.7/bin/python'})<CR>:CocRestart<CR>
+"
 
 "start TeX
 nmap <leader>st :set filetype=tex<CR>:w<CR>itemplate<TAB>a<esc>:VimtexToggleMain<CR>
@@ -2381,6 +2392,12 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gR <Plug>(coc-refactor)
+nmap <leader>qf  <Plug>(coc-fix-current)
+nmap <leader>ac  <Plug>(coc-codeaction)
+nmap <leader>rn <Plug>(coc-rename)
+command! -nargs=0 Format :call CocAction('format')
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
 nmap <BS> :ALEDetail<CR>
 nmap <c-g> :call CocActionAsync("doHover")<cr>
 let g:sick_symbol_default_mappings =0
@@ -2675,15 +2692,9 @@ let g:line=''
 		 exe "g/".k."/norm I\/\/U"
 	 endfor 
  endfunction 
-function! PostCMD()
-    :Tnew
-	:T cd ~
-    :T umount ./dev03
-    :T cat ~/mysec |  sshfs rnd@preempt-dev03.preempt.com:/ ./dev03 -o password_stdin
-	:T sshfs rnd@dev-dev01:/home/rnd ./devdev
-    :T exit
-endfunction 
-
+if g:on_ek_computer 
+     source ~/vimpy3/secfunc.vim
+endif
 
 function! ReplaceRPC()
 %s/\[.\{-}in.\{-}\]//g
@@ -2810,4 +2821,12 @@ let g:coc_files=' *.py,*.tex,*.vimrc '
     "return "\<Tab>"
   "endif
 "endfunction
-
+func! ToggleHebrew()
+  if &rl
+    set norl
+    set keymap=
+  else
+    set rl
+    set keymap=hebrew
+  end
+endfunc
