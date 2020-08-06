@@ -15,6 +15,9 @@ def math():
 		return first != ignore
 	except StopIteration:
 		return False
+
+def nmath():
+	return not math()
 endglobal
 
 snippet template "Basic template" b
@@ -555,23 +558,23 @@ snippet TD "to the ... power" iA
 ^{$1}$0
 endsnippet
 
-
+context "math()"
 snippet __ "subscript" iA
 _{$1}$0
 endsnippet
-
+context "math()"
 snippet ooo "\infty" iA
 \infty
 endsnippet
-
+context "math()"
 snippet rij "mrij" i
 (${1:x}_${2:n})_{${3:$2}\\in${4:\\N}}$0
 endsnippet
-
+context "math()"
 snippet <= "leq" iA
 \le
 endsnippet
-
+context "math()"
 snippet >= "geq" iA
 \ge
 endsnippet
@@ -626,7 +629,7 @@ context "math()"
 snippet xmm "x" iA
 x_{m}
 endsnippet
-
+context "math()"
 snippet R0+ "R0+" iA
 \\R_0^+
 endsnippet
@@ -669,6 +672,7 @@ snippet xx "cross" iA
 endsnippet
 
 priority 100
+context "math()"
 snippet ** "cdot" iA
 \cdot
 endsnippet
@@ -728,16 +732,16 @@ context "math()"
 snippet \\\ "setminus" iA
 \setminus
 endsnippet
-
+context "math()"
 snippet >> ">>" iA
 \gg
 endsnippet
-
+context "math()"
 snippet << "<<" iA
 \ll
 endsnippet
 
-
+context "math()"
 snippet ~~ "~" iA
 \sim
 endsnippet
@@ -756,7 +760,7 @@ context "math()"
 #snippet cc "subset" Ai
 #\subset
 #endsnippet
-
+context "math()"
 snippet notin "not in " iA
 \not\in
 endsnippet
@@ -773,46 +777,46 @@ context "math()"
 #snippet Nn "cap" iA
 #\cap
 #endsnippet
-
+context "math()"
 snippet UU "cup" iA
 \cup
 endsnippet
-
+context "math()"
 snippet uuu "bigcup" iA
 \bigcup_{${1:i \in ${2: I}}} $0
 endsnippet
-
+context "math()"
 snippet nnn "bigcap" iA
 \bigcap_{${1:i \in ${2: I}}} $0
 endsnippet
-
+context "math()"
 snippet OO "emptyset" iA
 \O
 endsnippet
-
+context "math()"
 snippet RR "real" iA
 \R
 endsnippet
-
+context "math()"
 snippet QQ "Q" iA
 \Q
 endsnippet
-
+context "math()"
 snippet ZZ "Z" iA
 \Z
 endsnippet
-
+context "math()"
 snippet <! "normal" iA
 \triangleleft
 endsnippet
-
+context "math()"
 snippet <> "hokje" iA
 \diamond
 endsnippet
 
 
 
-
+context "math()"
 snippet SI "SI" iA
 \SI{$1}{$2}
 endsnippet
@@ -852,28 +856,28 @@ snippet letw "let omega" iA
 Let $\Omega \subset \C$ be open.
 endsnippet
 
-
+context "math()"
 snippet HH "H" iA
 \mathbb{H}
 endsnippet
 
-
+context "math()"
 snippet TT "T" iA
 \mathcal{T}
 endsnippet
-
+context "math()"
 snippet ZZ "Z" iA
 \mathbb{Z}
 endsnippet
-
+context "math()"
 snippet DD "D" iA
 \mathbb{D}
 endsnippet
-
+context "math()"
 snippet NL "newline" iA
 \newline
 endsnippet
-
+context "math()"
 snippet @f "footnote" iA
 \footnote{${1:${VISUAL}}}$0
 endsnippet
@@ -895,27 +899,27 @@ endsnippet
 snippet @E  "emphasize" iA
 \\textbf{${1:${VISUAL}}}$0
 endsnippet
-
+context "math()"
 snippet @^  "hat" iA
 \\hat{${1:${VISUAL}}}$0
 endsnippet
-
+context "math()"
 snippet @_  "bar" iA
 \\bar{${1:${VISUAL}}}$0
 endsnippet
-
+context "math()"
 snippet @;  "dot" iA
 \\dot{${1:${VISUAL}}}$0
 endsnippet
-
+context "math()"
 snippet @~  "tilde" iA
 \\tilde{${1:${VISUAL}}}$0
 endsnippet
-
+context "math()"
 snippet @c "mathcal" iA
 \mathcal{${1:${VISUAL}}}$0
 endsnippet
-
+context "math()"
 snippet @b "mathbb" iA
 \mathbb{${1:${VISUAL}}}$0
 endsnippet
@@ -927,226 +931,514 @@ endsnippet
 snippet @C "cite" iA
 \autocite[$0]{${1:${VISUAL}}}
 endsnippet
-
+context "math()"
 snippet @B "bra" iA
 \Bra{${1:${VISUAL}}}$0
 endsnippet
-
+context "math()"
 snippet @K "Ket" iA
 \Ket{${1:${VISUAL}}}$0
 endsnippet
-
+context "math()"
 snippet @< "Subset" iA
 \Subset
 endsnippet
-
+context "math()"
 snippet @, "nonumber" iA
 \nonumber
 endsnippet
-
+context "math()"
 snippet @+ "bigcup" iA
 \bigcup
 endsnippet
-
+context "math()"
 snippet @* "times" iA
 \times
 endsnippet
-
+context "math()"
 snippet @@ "circ" iA
 \circ
 endsnippet
 
+context "math()"
 snippet ~a "alpha" iA
 \alpha
 endsnippet
 
+context "math()"
 snippet ~g "gamma" iA
 \gamma
 endsnippet
 
-snippet ~e "varepsilon" iA
+context "math()"
+snippet ~e "epsilon" iA
 \varepsilon
 endsnippet
 
+context "math()"
 snippet ~h "eta" iA
 \eta
 endsnippet
 
+context "math()"
 snippet ~i "iota" iA
 \iota
 endsnippet
 
+context "math()"
 snippet ~l "lambda" iA
 \lambda
 endsnippet
 
+context "math()"
 snippet ~n "nu" iA
 \nu
 endsnippet
 
+context "math()"
 snippet ~p "pi" iA
 \pi
 endsnippet
 
+context "math()"
 snippet ~s "sigma" iA
 \sigma
 endsnippet
 
+context "math()"
 snippet ~t "tau" iA
 \tau
 endsnippet
 
+context "math()"
 snippet ~f "varphi" iA
 \varphi
 endsnippet
 
+context "math()"
 snippet ~y "psi" iA
 \psi
 endsnippet
 
+context "math()"
 snippet ~A "Alpha" iA
 \Alpha
 endsnippet
 
+context "math()"
 snippet ~G "Gamma" iA
 \Gamma
 endsnippet
 
+context "math()"
 snippet ~E "Epsilon" iA
 \Epsilon
 endsnippet
 
+context "math()"
 snippet ~H "Eta" iA
 \Eta
 endsnippet
 
+context "math()"
 snippet ~L "Lambda" iA
 \Lambda
 endsnippet
 
+context "math()"
 snippet ~N "Nu" iA
 \Nu
 endsnippet
 
+context "math()"
 snippet ~P "Pi" iA
 \Pi
 endsnippet
 
+context "math()"
 snippet ~S "Sigma" iA
 \Sigma
 endsnippet
 
+context "math()"
 snippet ~U "Upsilon" iA
 \Upsilon
 endsnippet
 
+context "math()"
 snippet ~Y "Psi" iA
 \Psi
 endsnippet
 
+context "math()"
 snippet ~( "subset" iA
 \subset
 endsnippet
 
+context "math()"
 snippet ~= "equiv" iA
 \equiv
 endsnippet
 
 
+context "math()"
 snippet ~& "wedge" iA
 \wedge
 endsnippet
 
+context "math()"
 snippet ~8 "infty" iA
 \infty
 endsnippet
 
+context "math()"
 snippet ~6 "partial" iA
 \partial
 endsnippet
 
+context "math()"
 snippet ~b "beta" iA
 \beta
 endsnippet
 
+context "math()"
 snippet ~d "delta" iA
 \delta
 endsnippet
 
+context "math()"
 snippet ~z "zeta" iA
 \zeta
 endsnippet
 
+context "math()"
 snippet ~q "theta" iA
 \theta
 endsnippet
 
+context "math()"
 snippet ~k "kappa" iA
 \kappa
 endsnippet
 
+context "math()"
 snippet ~m "mu" iA
 \mu
 endsnippet
 
+context "math()"
 snippet ~x "xi" iA
 \xi
 endsnippet
 
+context "math()"
 snippet ~r "rho" iA
 \rho
 endsnippet
 
+context "math()"
 snippet ~v "varsigma" iA
 \varsigma
 endsnippet
 
+context "math()"
 snippet ~u "upsilon" iA
 \upsilon
 endsnippet
 
+context "math()"
 snippet ~c "chi" iA
 \chi
 endsnippet
 
+context "math()"
 snippet ~w "omega" iA
 \omega
 endsnippet
 
+context "math()"
 snippet ~B "Beta" iA
 \Beta
 endsnippet
 
+context "math()"
 snippet ~D "Delta" iA
 \Delta
 endsnippet
 
+context "math()"
 snippet ~K "Kappa" iA
 \Kappa
 endsnippet
 
+context "math()"
 snippet ~M "Mu" iA
 \Mu
 endsnippet
 
+context "math()"
 snippet ~X "Xi" iA
 \Xi
 endsnippet
 
+context "math()"
 snippet ~R "Rho" iA
 \Rho
 endsnippet
 
+context "math()"
 snippet ~T "Tau" iA
 \Tau
 endsnippet
 
+context "math()"
 snippet ~C "Chi" iA
 \Chi
 endsnippet
 
+context "math()"
 snippet ~W "Omega" iA
 \Omega
 endsnippet
 
+context "nmath()"
+snippet ~a "alpha" iA
+$\alpha$
+endsnippet
+
+context "nmath()"
+snippet ~g "gamma" iA
+$\gamma$
+endsnippet
+
+context "nmath()"
+snippet ~e "varepsilon" iA
+$\varepsilon$
+endsnippet
+
+context "nmath()"
+snippet ~h "eta" iA
+$\eta$
+endsnippet
+
+context "nmath()"
+snippet ~i "iota" iA
+$\iota$
+endsnippet
+
+context "nmath()"
+snippet ~l "lambda" iA
+$\lambda$
+endsnippet
+
+context "nmath()"
+snippet ~n "nu" iA
+$\nu$
+endsnippet
+
+context "nmath()"
+snippet ~p "pi" iA
+$\pi$
+endsnippet
+
+context "nmath()"
+snippet ~s "sigma" iA
+$\sigma$
+endsnippet
+
+context "nmath()"
+snippet ~t "tau" iA
+$\tau$
+endsnippet
+
+context "nmath()"
+snippet ~f "varphi" iA
+$\varphi$
+endsnippet
+
+context "nmath()"
+snippet ~y "psi" iA
+$\psi$
+endsnippet
+
+context "nmath()"
+snippet ~A "Alpha" iA
+$\Alpha$
+endsnippet
+
+context "nmath()"
+snippet ~G "Gamma" iA
+$\Gamma$
+endsnippet
+
+context "nmath()"
+snippet ~E "Epsilon" iA
+$\Epsilon$
+endsnippet
+
+context "nmath()"
+snippet ~H "Eta" iA
+$\Eta$
+endsnippet
+
+context "nmath()"
+snippet ~L "Lambda" iA
+$\Lambda$
+endsnippet
+
+context "nmath()"
+snippet ~N "Nu" iA
+$\Nu$
+endsnippet
+
+context "nmath()"
+snippet ~P "Pi" iA
+$\Pi$
+endsnippet
+
+context "nmath()"
+snippet ~S "Sigma" iA
+$\Sigma$
+endsnippet
+
+context "nmath()"
+snippet ~U "Upsilon" iA
+$\Upsilon$
+endsnippet
+
+context "nmath()"
+snippet ~Y "Psi" iA
+$\Psi$
+endsnippet
+
+context "nmath()"
+snippet ~( "subset" iA
+$\subset$
+endsnippet
+
+context "nmath()"
+snippet ~= "equiv" iA
+$\equiv$
+endsnippet
+
+
+context "nmath()"
+snippet ~& "wedge" iA
+$\wedge$
+endsnippet
+
+context "nmath()"
+snippet ~8 "infty" iA
+$\infty$
+endsnippet
+
+context "nmath()"
+snippet ~6 "partial" iA
+$\partial$
+endsnippet
+
+context "nmath()"
+snippet ~b "beta" iA
+$\beta$
+endsnippet
+
+context "nmath()"
+snippet ~d "delta" iA
+$\delta$
+endsnippet
+
+context "nmath()"
+snippet ~z "zeta" iA
+$\zeta$
+endsnippet
+
+context "nmath()"
+snippet ~q "theta" iA
+$\theta$
+endsnippet
+
+context "nmath()"
+snippet ~k "kappa" iA
+$\kappa$
+endsnippet
+
+context "nmath()"
+snippet ~m "mu" iA
+$\mu$
+endsnippet
+
+context "nmath()"
+snippet ~x "xi" iA
+$\xi$
+endsnippet
+
+context "nmath()"
+snippet ~r "rho" iA
+$\rho$
+endsnippet
+
+context "nmath()"
+snippet ~v "varsigma" iA
+$\varsigma$
+endsnippet
+
+context "nmath()"
+snippet ~u "upsilon" iA
+$\upsilon$
+endsnippet
+
+context "nmath()"
+snippet ~c "chi" iA
+$\chi$
+endsnippet
+
+context "nmath()"
+snippet ~w "omega" iA
+$\omega$
+endsnippet
+
+context "nmath()"
+snippet ~B "Beta" iA
+$\Beta$
+endsnippet
+
+context "nmath()"
+snippet ~D "Delta" iA
+$\Delta$
+endsnippet
+
+context "nmath()"
+snippet ~K "Kappa" iA
+$\Kappa$
+endsnippet
+
+context "nmath()"
+snippet ~M "Mu" iA
+$\Mu$
+endsnippet
+
+context "nmath()"
+snippet ~X "Xi" iA
+$\Xi$
+endsnippet
+
+context "nmath()"
+snippet ~R "Rho" iA
+$\Rho$
+endsnippet
+
+context "nmath()"
+snippet ~T "Tau" iA
+$\Tau$
+endsnippet
+
+context "nmath()"
+snippet ~C "Chi" iA
+$\Chi$
+endsnippet
+
+context "nmath()"
+snippet ~W "Omega" iA
+$\Omega$
+endsnippet
 # vim:ft=snippets
