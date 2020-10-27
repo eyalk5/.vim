@@ -149,9 +149,10 @@ endsnippet
 
 
 snippet thm "Theorem" b
-\begin{theorem}
-	${1:${VISUAL}}
-\end{theorem}
+\begin{thm}
+\label{thm:$1}
+	${2:${VISUAL}}
+\end{thm}
 
 endsnippet
 
@@ -188,7 +189,7 @@ endsnippet
 
 snippet def "Definition" bA
 \begin{defn}[$1]
-\label{sub:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+\label{defn:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
 	${3:${VISUAL}}
 \end{defn}
 endsnippet
@@ -202,9 +203,9 @@ endsnippet
 #endsnippet
 
 snippet remark "Remark" bA
-\begin{remark}
+\begin{rem*}
 	${1:${VISUAL}}
-\end{remark}
+\end{rem*}
 
 endsnippet
 
@@ -873,14 +874,15 @@ context "math()"
 snippet DD "D" iA
 \mathbb{D}
 endsnippet
-context "math()"
+
 snippet NL "newline" iA
 \newline
 endsnippet
-context "math()"
+
 snippet @f "footnote" iA
 \footnote{${1:${VISUAL}}}$0
 endsnippet
+
 context "math()"
 snippet case "@C" wA
 \begin{cases}
@@ -899,6 +901,7 @@ endsnippet
 snippet @E  "emphasize" iA
 \\textbf{${1:${VISUAL}}}$0
 endsnippet
+
 context "math()"
 snippet @^  "hat" iA
 \\hat{${1:${VISUAL}}}$0
@@ -916,9 +919,11 @@ snippet @~  "tilde" iA
 \\tilde{${1:${VISUAL}}}$0
 endsnippet
 context "math()"
+
 snippet @c "mathcal" iA
 \mathcal{${1:${VISUAL}}}$0
 endsnippet
+
 context "math()"
 snippet @b "mathbb" iA
 \mathbb{${1:${VISUAL}}}$0
@@ -931,18 +936,22 @@ endsnippet
 snippet @C "cite" iA
 \autocite[$0]{${1:${VISUAL}}}
 endsnippet
+
 context "math()"
 snippet @B "bra" iA
 \Bra{${1:${VISUAL}}}$0
 endsnippet
+
 context "math()"
 snippet @K "Ket" iA
 \Ket{${1:${VISUAL}}}$0
 endsnippet
+
 context "math()"
 snippet @< "Subset" iA
 \Subset
 endsnippet
+
 context "math()"
 snippet @, "nonumber" iA
 \nonumber
@@ -972,7 +981,7 @@ endsnippet
 
 context "math()"
 snippet ~e "epsilon" iA
-\varepsilon
+\epsilon
 endsnippet
 
 context "math()"
@@ -1213,7 +1222,7 @@ endsnippet
 
 context "nmath()"
 snippet ~e "varepsilon" iA
-$\varepsilon$
+$\epsilon$
 endsnippet
 
 context "nmath()"

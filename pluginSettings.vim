@@ -279,6 +279,8 @@ let g:defRoot= g:vimloc
 
 "easymotion
 "
+
+
 let g:EasyMotion_do_mapping =1
 
 let g:EasyMotion_smartcase = 1
@@ -292,6 +294,8 @@ let g:EasyMotion_off_screen_search = 1
 "
 
 " Ultisnips
+ " "let g:UltiSnipsJumpForwardTrigger = '<tab>'
+ "  "let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 "
  let g:UltiSnipsExpandTrigger = '<c-g>'
 let  g:UltiSnipsJumpForwardTrigger   =     '<c-j>'
@@ -373,14 +377,15 @@ let g:NETRPreviewDefaultOn=0
 "let g:NETRAutochdir="a"
 " sort by modified
 :autocmd FileType netranger setlocal noswapfile
+call EasyMotion#command_line#cmap(["<C-K>","<CR><CR>:call DoOpen()<CR>"])
 :autocmd FileType netranger nmap <buffer> R SM
 :autocmd FileType netranger nmap <buffer> <space> za
-:autocmd FileType netranger nmap <buffer> <M-Right> :call DoOpen()<CR>Y
-:autocmd FileType netranger cmap <buffer> <M-Right> <CR>:call DoOpen()<CR>Y
+:autocmd FileType netranger nmap <buffer> <M-Right> :call DoOpen()<CR><c-s>
+:autocmd FileType netranger cmap <buffer> <M-Right> <CR>:call DoOpen()<CR><c-s>
 :autocmd FileType netranger nmap <buffer> <M-left> :call DoClose()<CR>
 :autocmd FileType netranger cmap <buffer> <M-left> :call DoClose()<CR>
-:autocmd FileType netranger nmap <buffer> <C-K> :call DoOpen()<CR>Y
-:autocmd FileType netranger cmap <buffer> <C-K> <CR>:call DoOpen()<CR>Y
+:autocmd FileType netranger nmap <buffer> <C-K> :call DoOpen()<CR><c-s>
+:autocmd FileType netranger cmap <buffer> <C-K> <CR>:call DoOpen()<CR><c-s>
 :autocmd FileType netranger nmap <buffer> <C-N> :call DoClose()<CR>
 :autocmd FileType netranger cmap <buffer> <C-N> :call DoClose()<CR>
 :autocmd FileType netranger nnoremap <buffer> cd :PY netranger.api.NETRApi.ranger.NETRVimCD()<CR>
@@ -389,9 +394,9 @@ let g:NETRPreviewDefaultOn=0
 :autocmd FileType netranger command! -nargs=* DF call Duplicate(<f-args>)
 
 ":autocmd FileType nerdtree cmap <buffer> <M-Right> <CR>:call DoOpen2()<CR>Y
-:autocmd FileType nerdtree cmap <buffer> <M-Right> <CR>:call DoOpen()<CR>Y
+:autocmd FileType nerdtree cmap <buffer> <M-Right> <CR>:call DoOpen()<CR><c-s>
 :autocmd FileType nerdtree cmap <buffer> <M-left> <CR>x
-:autocmd FileType nerdtree nmap <buffer> <M-Right> :call DoOpen()<CR>Y
+:autocmd FileType nerdtree nmap <buffer> <M-Right> :call DoOpen()<CR><c-s>
 "<CR>ztj,
 :autocmd FileType nerdtree nmap <buffer> <M-left> x
 
@@ -469,66 +474,7 @@ let $FZF_DEFAULT_OPTS="--history=" . $HOME . "/.fzf/history_file"
 "nvim-ipy stuff
 let g:nvim_ipy_perform_mappings=0
 
-"motion seekness
-"
-"let g:sickness#expression#preferred_shortcut_map = 'opendelim'  " uses {i,a}{(,{,[,<} for expression text objects
-"let g:sickness#expression#preferred_shortcut_map = 'closedelim' " uses {i,a}{),},],>} for expression text objects
-let g:sickness#expression#preferred_shortcut_map = 'char'       " uses {i,a}{b,B,r,a} for expression text objects
 
-" or if you want to set your own mappings
-"let g:sickness#expression#use_default_maps = 0
-xmap iit <cmd>call sickness#textobj#indentation#motion(v:false, 't')<CR>
-omap iit <cmd>call sickness#textobj#indentation#motion(v:false, 't')<CR>
-""letvmap iit <plug>(textobj-sickness-indentation-top-i)
-"omap ait <plug>(textobj-sickness-indentation-top-a)
-"vmap ait <plug>(textobj-sickness-indentation-top-a)
-"omap ieb <plug>(textobj-sickness-expression-parenthesis-i)
-"xmap ieb <plug>(textobj-sickness-expression-parenthesis-i)
-"omap aeb <plug>(textobj-sickness-expression-parenthesis-a)
-"xmap aeb <plug>(textobj-sickness-expression-parenthesis-a)
-
-"omap ieB <plug>(textobj-sickness-expression-brace-i)
-"xmap ieB <plug>(textobj-sickness-expression-brace-i)
-"omap aeB <plug>(textobj-sickness-expression-brace-a)
-"xmap aeB <plug>(textobj-sickness-expression-brace-a)
-
-"omap ier <plug>(textobj-sickness-expression-bracket-i)
-"xmap ier <plug>(textobj-sickness-expression-bracket-i)
-"omap aer <plug>(textobj-sickness-expression-bracket-a)
-"xmap aer <plug>(textobj-sickness-expression-bracket-a)
-
-"omap iea <plug>(textobj-sickness-expression-chevron-i)
-"xmap iea <plug>(textobj-sickness-expression-chevron-i)
-"omap aea <plug>(textobj-sickness-expression-chevron-a)
-"xmap aea <plug>(textobj-sickness-expression-chevron-a)
-let g:sickness#line#use_default_maps = 0
-
- omap iL <plug>(textobj-sickness-line-i)
- xmap iL <plug>(textobj-sickness-line-i)
- omap aL <plug>(textobj-sickness-line-a)
- xmap aL <plug>(textobj-sickness-line-a) 
-
-let g:sickness#field#use_default_maps = 0
-omap iFb <plug>(textobj-sickness-field-parenthesis-i)
-vmap iFb <plug>(textobj-sickness-field-parenthesis-i)
-omap aFb <plug>(textobj-sickness-field-parenthesis-a)
-vmap aFb <plug>(textobj-sickness-field-parenthesis-a)
-
-omap iFB <plug>(textobj-sickness-field-brace-i)
-vmap iFB <plug>(textobj-sickness-field-brace-i)
-omap aFB <plug>(textobj-sickness-field-brace-a)
-vmap aFB <plug>(textobj-sickness-field-brace-a)
-
-omap iFr <plug>(textobj-sickness-field-bracket-i)
-vmap iFr <plug>(textobj-sickness-field-bracket-i)
-omap aFr <plug>(textobj-sickness-field-bracket-a)
-vmap aFr <plug>(textobj-sickness-field-bracket-a)
-
-omap iFa <plug>(textobj-sickness-field-chevron-i)
-vmap iFa <plug>(textobj-sickness-field-chevron-i)
-omap aFa <plug>(textobj-sickness-field-chevron-a)
-vmap aFa <plug>(textobj-sickness-field-chevron-a)
-let g:sick_symbol_default_mappings =0
 "
 "Multicursors
 "
@@ -542,11 +488,12 @@ let g:vimtex_quickfix_mode=0
 set conceallevel=1
 let g:tex_conceal='abmg'  "'abdmg'
 let g:vimtex_enabled=1
-
-let g:vimtex_mappings_disable = {
-	\ 'n': ['tse', 'tsd','tsD','tsc'],
-	\ 'x': ['tsd','tsD','tsc']
-	\}
+let g:vimtex_mappings_override_existing=1
+let g:vimtex_imaps_enabled=0
+"let g:vimtex_mappings_disable = {
+	"\ 'n': ['tse', 'tsd','tsD','tsc'],
+	"\ 'x': ['tsd','tsD','tsc']
+	"\}
 let g:vimtex_complete_recursive_bib=1
 "let g:vimtex_fold_manual=1
 let g:vimtex_fold_enabled =1
@@ -557,16 +504,18 @@ let g:vimtex_fold_enabled =1
 let g:vimtex_view_method = 'skim'
 "let g:vimtex_view_method = 'mupdf'
 let g:vimtex_compiler_progname = 'nvr'
+"    \ 'build_dir' : '/tmp/builddir',
+"
 let g:vimtex_compiler_latexmk = {
     \ 'backend' : 'nvim',
     \ 'background' : 1,
-    \ 'build_dir' : '/tmp/builddir',
     \ 'callback' : 1,
     \ 'continuous' : 1,
     \ 'executable' : 'latexmk',
     \ 'options' : [
-	\  '-pvc',
-    \   '-shell-escape',
+    \ '-g',
+    \ '-f-',
+    \   '-no-shell-escape',
     \   '-verbose',
     \   '-file-line-error',
     \   '-synctex=1',
@@ -576,12 +525,15 @@ let g:vimtex_compiler_latexmk = {
 "custom vimtex settings
  let g:mathshortcuts = ''
 
-"supertab
+"supertab 
 let g:SuperTabMappingForward = '<tab>'
 let g:SuperTabMappingBackward = '<s-tab>'
 let g:SuperTabDefaultCompletionType = "<c-n>"
 let g:SuperTabContextDefaultCompletionType = "<c-n>" 
+let g:SuperTabLongestEnhanced=1
+let g:SuperTabLongestHighlight=1
 
+"custom vimtex setting
 "YCM
 
 let g:ycm_filetype_whitelist = {'c': 1,'cpp':1} "'tex':1
@@ -598,8 +550,8 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 
 let $NVIM_COC_LOG_LEVEL = 'debug'
 "that is a patch in coc that remove some files
-let g:coc_files=' *.py,*.tex,*.vimrc '
-"let g:coc_files=' * '
+"let g:coc_files=' *.py,*.tex,*.vimrc '
+let g:coc_files=' * '
 "
  "//"languageserver": {
  "//   "ccls": {
@@ -613,3 +565,15 @@ let g:coc_files=' *.py,*.tex,*.vimrc '
  "//      }
  "//   }
  " } ,
+ "
+ "vimspector
+ "
+ "
+"let g:vimspector_base_dir=expand( '$HOME/.vim/plugged/vimspector' )
+ 
+"let g:vimspector_sidebar_width = 80
+"let g:vimspector_code_minwidth = 85
+"let g:vimspector_code_maxwidth = 105
+"let g:vimspector_terminal_minwidth = 75
+"let g:vimspector_terminal_maxwidth = 85
+"let g:vimspector_bottombar_height = 25

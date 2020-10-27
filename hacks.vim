@@ -170,7 +170,7 @@ endfunction
 
 "dirs tracking
 function! LoadDir()
-PY << EOF
+py3 << EOF
 import vim
 import pickle
 try:
@@ -194,7 +194,7 @@ function! SaveLastDir()
 		return
 	endif
 	call add(g:dirs,reg)
-PY << EOF
+py3 << EOF
 import vim
 import pickle
 output = open(vim.eval('g:vimloc')+'/dirs.cache', 'wb')
@@ -208,19 +208,19 @@ endfunction
 
 
 function! SaveInsertsFunc(a)
-	PY dic={}
-	PY import os
+	py3 dic={}
+	py3 import os
 	let lastbuf=bufnr('$')
 	for i in range(lastbuf)
 		let bufn=bufname(i)
 
 		if bufn!=''
 			let t=getbufvar(i,'inserts')
-			PY key=vim.eval('expand("#'+str(vim.eval('i'))+':p")')
-			PY dic[key]=vim.eval('t')
+			py3 key=vim.eval('expand("#'+str(vim.eval('i'))+':p")')
+			py3 dic[key]=vim.eval('t')
 		endif
 endfor
-PY << EOF
+py3 << EOF
 import vim
 import pickle
 output = open(vim.eval('g:vimloc')+'/inserts.cache', 'wb')
@@ -232,6 +232,7 @@ endfunction
 if has('nvim')
 :autocmd InsertLeave * call SaveLastInsert()
 :autocmd TextYankPost * call SaveLastCopy()
+:autocmd TextYankPost * call SaveLastReg()
 :autocmd BufRead * call LoadInsertsForBuf()
 ":autocmd BufNewFile if !exists('b:inserts') <bar> let b:inserts=[]  dsfsdf
 
@@ -384,7 +385,6 @@ if !exists('g:lasttab')
  let g:lasttab = 1
 endif
 
-nmap _t :exe "tabn ".g:lasttab<CR>
 au TabLeave * let g:lasttab = tabpagenr() 
 
 "Marks
@@ -398,6 +398,7 @@ autocmd InsertLeave * execute 'normal! mM'
 "timer func
 "
 "
+au ExitPre call StopTimerFunc() 
 function! StopTimerFunc()
 	call timer_stop(g:autosaveWS)
 endfunction
@@ -440,13 +441,25 @@ function! TimerFunc(a)
 		let @o=@+
 		let g:last_copied=@+
 	endif
-endfunction
 
-"tail
-"
+    "updates shada files to keep current commands
+    :wshada
+endfunction
+function! SaveLastReg()
+    if v:event['regname']==""
+        if v:event['operator']=='y'
+            for i in range(8,1,-1)
+                exe "let @".string(i+1)." = @". string(i) 
+            endfor
+            if exists("g:last_yank")
+                let @2=g:last_yank
+            endif
+            let g:last_yank=@*
+        endif 
+    endif
+endfunction 
 "
 function! Tailf()
-	"Press C-c to stop tailing
 	while 1
 		e
 		normal G
@@ -455,7 +468,6 @@ function! Tailf()
 	endwhile
 endfunction
 command! Tailf call Tailf()<CR>
-
 "TN
 "
 
@@ -494,7 +506,7 @@ function! WhichTab(filename)
     endfor
 
 endfunction
-command! -nargs=* -complete=file TN if HandleTN(<q-args>) <bar>  :let tab=WhichTab(<f-args>) <bar> if tab==0 <bar> :tabnew <args> <bar> :else <bar> :exe  'norm '.tab.'gt' <bar> endif <bar> endif
+command! -nargs=* -complete=file TN if HandleTN(<q-args>) <bar>  :let tab=WhichTab(<f-args>) <bar> if tab==1 <bar> :tabnew <args> <bar> :else <bar> :exe  'norm '.tab.'gt' <bar> endif <bar> endif
 
 
 "" change window local working directory

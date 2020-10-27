@@ -8,11 +8,11 @@ autocmd filetype tex set iskeyword+=\
 autocmd filetype tex let g:tex_fold_additional_envs = ['lem','proof','defn','thm','cor','claim','enumerate','rem','prop']
 autocmd filetype tex nmap <buffer> K <leader>lv
 "autocmd filetype tex nmap <buffer> <leader>inl i\leavevmode \newline <esc>
-autocmd filetype tex nmap <buffer> <leader>inl ^i\medskip \medskip<esc>
+autocmd filetype tex nmap <buffer> <leader>inl ^i\medskip \medskip <esc>
 autocmd filetype tex nmap <buffer> <leader>it ^i\item <esc>
 autocmd filetype tex nmap <buffer> <leader>il A \\<esc>
-autocmd filetype tex nmap <buffer> <leader>ll :exe ":!echo " . v:servername . " > /tmp/curserver "<CR><plug>(vimtex-compile) 
- 
+autocmd filetype tex nmap <buffer> <leader>ll :exe ":!echo " . v:servername . " > /tmp/curserver "<CR><plug>(vimtex-compile)
+autocmd filetype tex nmap <buffer> <leader>lm :exe ':!rm /tmp/builddir/' . expand('%:t:r') . '.*'<CR>
 autocmd filetype tex nmap <buffer> TC <plug>(vimtex-cmd-toggle-star)                
 autocmd filetype tex nmap <buffer> TE <plug>(vimtex-env-toggle-star)                
 autocmd filetype tex nmap <buffer> TD <plug>(vimtex-delim-toggle-modifier)          

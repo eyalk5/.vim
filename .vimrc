@@ -4,7 +4,6 @@
 " By Eyal Karni
 "
 ":let $PYTHONPATHCOC='/Users/eyalkarni/impacket/impacket;/usr/local/lib/python2.7/site-packages;/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages'
-" 
 " I will be applying some adaptations on my computer. That is only if the folder exists.
 " some tips : remember commenter \Cc , remember <c-u>  and <M-Bslash> windows , remember \C
 " close NR 
@@ -20,8 +19,12 @@
 " g; is a very nice command to iterate through changes. (g, older)
 " also 'I and `I made to work.
 " let us remember that ! is `
+" Gdiffsplit! for merge!!!!
 let g:on_ek_computer=(filewritable("/Users/eyalkarni")==2)
 let g:on_vimr= ( $VIM=~# ".*VimR.*")
+
+"silent !pyenv global 2.7
+"g:vimloc is ~/.vim folder
 let g:vimloc=split(&packpath,',')[0]
 
 exe 'source' . g:vimloc . "/vimsettings.vim"
@@ -29,7 +32,12 @@ exe 'source' . g:vimloc . "/vimsettings.vim"
 
 "let &shell='/usr/bin/bash --login'
 "source ~/.vim2/autoload/repmo.vim
+"
 call plug#begin('~/.vim/plugged')
+"Plug 'ggvgc/vim-fuzzysearch'
+Plug 'benknoble/popsikey'
+Plug 'jacob-ogre/vim-syncr'
+Plug 'inkarkat/vim-SpellCheck'
 Plug 'echuraev/translate-shell.vim', { 'do': 'wget -O ~/.vim/trans git.io/trans && chmod +x ~/.vim/trans' }
 Plug 'rbtnn/vim-vimscript_lasterror'
 "Plug 'mg979/vim-yanktools'
@@ -38,11 +46,11 @@ Plug 'matze/vim-tex-fold'
 	Plug 'puremourning/vimspector'
 "endif
  "Plug 'jlanzarotta/bufexplorer'
-
 "Plug 'AndrewRadev/undoquit.vim'
 "Plug 'Shougo/denite.nvim'
 Plug 'Yggdroot/LeaderF', { 'do': '.\install.sh' }
 Plug 'simnalamburt/vim-mundo'
+Plug 'sjl/gundo.vim'
 
 Plug 'scrooloose/nerdcommenter'
 Plug 'rhysd/vim-grammarous'
@@ -100,7 +108,7 @@ Plug 'tmhedberg/SimpylFold'
 Plug 'inkarkat/vim-ingo-library'
 endif
 Plug 'octol/vim-cpp-enhanced-highlight' "additional vim c++ syntax highlighting
-Plug 'valloric/youcompleteme'
+"Plug 'valloric/youcompleteme'
 
 Plug 'vim-scripts/EnhancedJumps'
 Plug 'Vimjas/vim-python-pep8-indent'

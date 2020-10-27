@@ -1,53 +1,15 @@
 
 "  Mappings!! of plugins as well
 "
-nmap <MiddleMouse> :redraw<CR>
-"nmap <MiddleMouse> i
-"imap <MiddleMouse> <ESC>
 "
-noremap _g :diffget<CR>
-noremap _p :diffput<CR>
-nmap _u :LastWindow<CR>
-
-if g:on_ek_computer
-    nmap _U :call fzf#vim#cust_history(reverse(copy(g:lastWindows)))<CR>
-endif
-nmap _. :cd ..<CR>
-nmap _- :cd -<CR>
-"previous file
-nmap _P :wprevious<CR>
-nmap _N :wnext<CR>
-"do comment out
-map __ <leader>Cc
 
 
-imap <M-Down> <esc>
-imap <M-Up> <esc>
-imap <M-Left> <esc>
-imap <M-Right> <esc>
-
-nmap <nowait> t :let g:init=1<CR>:w<CR>
-nnoremap \t t
-nmap <M-Down> <Plug>(grammarous-move-to-next-error)	
-nmap <M-Up> <Plug>(grammarous-move-to-previous-error)
-nmap <M-Left> <Plug>(grammarous-open-info-window)	
-nmap <M-Right> <Plug>(grammarous-fixit)	
-"let g:CtrlSpaceDefaultMappingKey = ''
-nmap <C-b> :CtrlSpace w<CR>
-"windows on tab
-nmap <c-U> <c-b>w
-
-
-
-"
-"autocmd VimEnter * call RestoreSession()
-"function! RestoreSession()
-	"if argc() == 0 && filereadable(eval('g:ses')) "vim called without arguments
-		"execute "source " . g:ses
-	"endif
-"endfunction
-
-
+"tabs
+let i = 1
+while i <= 9
+    execute 'nnoremap <Leader>' . i . ' :' . i . 'tabn<CR>'
+    let i = i + 1
+endwhile
 function! DefineMapping()
 map <expr> ; repmo#LastKey(';') | sunmap ;
 "map <expr> <C-\> repmo#LastRevKey(',') worked
@@ -70,295 +32,83 @@ endfunction
 
 call DefineMapping()
 
-"call DisableKeys()
-
-
-function! OnLoad()
-    echom "onload"
-":profile start /Users/eyalkarni/ab.log
-":profile file /Users/eyalkarni/vimpy3/plugged/vim-ctrlspace/autoload/ctrlspace/workspaces.vim
-"call ToggleVerbose() 
-    !cp /Users/eyalkarni/vimpy3/.git/cs_workspaces /tmp/onload 
-". '~/vimpy3/'
-:exe ":silent CtrlSpaceAddProjectRoot ". g:vimloc
-	if !has('nvim')
-		return
-	endif 
-	call MakeItFaster(0)
-	if g:on_ek_computer
-		let g:SessionFile = '/Users/eyalkarni/vimpy3/sess2'
-		if exists('g:GuiLoaded') || ( g:on_vimr) || exists(':GonvimWorkspaceNew')
-			let g:ctrlspaceWorkspace = '/Users/eyalkarni/vimpy3/.git/cs_workspaces'
-		else
-			let g:ctrlspaceWorkspace = '/Users/eyalkarni/vimpy3/.git/cs_workspacesCMD'
-		endif 
-		let g:overrideCWD=1
-	endif
-	
-	 "Find the current process, the process parent, and use ps ax to obtain the path. Meant to work in mac. in Linux, it is easier with `/proc/XXX/cmdline'. 
-	if argc()==0
-		PY import vim
-		PY import os
-		PY pid=os.getpid()
-		PY kk=os.popen('ps -o ppid= -p ' + str(pid)).read()
-		PY kk=kk.replace('\n','')
-		PY tt=("let uu=system('ps ax | grep \""+kk + "\" | grep -v grep')")
-		PY vim.command(tt)
-		let uuA=substitute(uu,"^.\\{-}\/","",'g')
-		let uu="bash"
-		PY kk=os.popen('ps -o ppid= -p ' + str(kk)).read()
-		PY kk=kk.replace('\n','')
-		"if it is 1 then fail 
-		PY if kk!=1: tt=("let uu=system('ps ax | grep \""+kk + "\" | grep -v grep')")
-		PY vim.command(tt)
-		let uu=substitute(uu,"^.\\{-}\/","",'g')
-		if (uu=~".*bash.*")
-			"too much indentation
-			let uu=uuA
-		endif
-
- 
-		"echom 'cmdline: '.uu
-		
-		"for neovim-qt
-		let uu=substitute(uu," -psn.\\{-}$","",'g')
-		PY vim.command('let uu='+str(vim.eval('uu').replace('\n','').find(' ')))
-
-		if uu==-1
-			"echom "loading"
-			":CocDisable
-			":CtrlSpaceLoadWorkspace default
-		endif
-	endif
-	"if exists('g:GuiLoaded') || ( g:on_vimr)
-		"imap <c-s> <esc>:let g:EasyMotion_add_search_history=0<CR>i<c-o><Plug>(easymotion-sn)
-	"endif 
-	if exists('g:GuiLoaded') || exists(':GonvimWorkspaceNew') || ( g:on_vimr) 
-		imap <c-s> <esc>:let g:EasyMotion_add_search_history=0<CR>i<c-o><Plug>(easymotion-sn)
-	else
-		nnoremap <c-s> :w<CR>
-	endif
-	"nvimQT
-	
-	if exists('g:GuiLoaded') || exists(':GonvimWorkspaceNew')
-		"set guifont=Meslo\ LG\ L\ DZ\ for\ Powerline:h12
-        set guifont=Inconsolata-dz\ for\ powerline:h14
-		if !exists(':GonvimWorkspaceNew')
-			:GuiTabline 0
-			"source /users/eyalkarni/nvim-osx64/share/nvim/runtime/macmap.vim
-			"it started to act normal
-			imap <M-ß> :w<CR>
-			nmap <D-W> :q<CR>
-			nmap <D-w> :q<CR>
-			nnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>
-			inoremap <silent><RightMouse> <Esc>:call GuiShowContextMenu()<CR>
-			vnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>gv
-			if g:on_ek_computer
-                source /Users/eyalkarni/neovim-0.4.2/runtime/macmap.vim 
-				nmap <leader>rv mwd:sleep 1<CR>:!osascript -e 'tell application "System Events" to keystroke "v" using {control down, shift down}'<CR>:qa!<CR>
-				nmap <leader>RV mwd:sleep 1<CR>:!osascript -e 'tell application "System Events" to keystroke "v" using {command down, shift down}'<CR>:qa!<CR> 
-				nmap <leader>Rv mwd:!osascript -e 'do shell script "sh /users/eyalkarni/vimpy3/vimqt2.sh <bar><bar> exit"'<CR>
-			endif
-		else
-			"~/nvimMACfiles/macmap042.vim
-            if g:on_ek_computer
-                source /Users/eyalkarni/neovim-0.4.2/runtime/macmap.vim 
-            endif
-			"set guifont=Fira\ Code:h14
-		endif 
-		"set guifont=Meslo\ LG\ S\ for\ Powerline:h14
-		"<D-d>
-"		set guifont=Monaco\ for\ Powerline:h12 
-		set mouse+=a
-		"nmap <D-S> :w<CR>
-		"nmap <D-s> :w<CR>
-		"nmap <D-V> p
-		"nmap <D-v> p
-		"imap <D-V> 
-		"imap <D-v> 
-		"vmap <D-V> p
-		"vmap <D-v> p
-		"vmap <D-C> y
-		"vmap <D-c> y
-		"vmap <D-X> d
-		"vmap <D-x> d
-		"cmap <D-V> <c-r>+
-		"cmap <D-v> <c-r>+
-	else
-
-		if g:on_ek_computer
-			nmap <leader>rv mwd:!osascript -e 'do shell script "sh /users/eyalkarni/vimpy3/vimr.sh"'<CR>
-		endif
-	endif
-	"echom "ignore this no such mapping"
-if getcwd()=='/'
-    cd ~
-    "normal \ov
-endif
-:GitGutterEnable
-let g:autosaveWS=timer_start(10000,'TimerFunc',{'repeat':-1})
-let g:autoreg=timer_start(2000,'GetLine',{'repeat':-1})
-let g:autosaveInserts = timer_start(20000,'SaveInsertsFunc',{'repeat':-1})
-"for solving ctags bug
-au! GonvimAu OptionSet
-endfunction
-
-function! OnEnd()
-	 "call ctrlspace#workspaces#SaveWorkspace("default")
-endfunction
-"insert commands
+"mouse 
+nmap <MiddleMouse> :redraw<CR>
+"nmap <MiddleMouse> i
+"imap <MiddleMouse> <ESC>
 "
-"end only until the end and not one more
-vnoremap <end> $h
-":inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
-":inoremap <S-b> <C-R>=STab_Or_Complete()<CR>
-"<C-CR>:
-"< C -S-uuLeft>
+"speical insert
 nmap <RightMouse> <F12>
 imap <RightMouse> <ESC>
-map <C-CR> <F13>
-imap <C-CR> <F13>
-imap <S-CR> <c-o>
-nmap § :call StartSpecialInsert()<CR>i
-nmap <F13> :call StartSpecialInsert()<CR>i
-nmap <F12> :call StartSpecialInsert()<CR>i
-imap <F12> <c-o>
-imap <F13> <ESC>
-"imap jk <ESC>l
-imap § <c-o>
-imap <c-a> <c-o><c-a>
-
-"let g:EasyMotion_leader_key= 'F'
-nnoremap <leader>F F
-nnoremap <leader>t t
-"Logical, since in normal we have s and S
-imap <c-b> <c-o><Plug>(easymotion-s2)
-imap <c-\> <c-o><Plug>(easymotion-s)
-"beginning of words
-imap <c-d> <c-o><Plug>(easymotion-bd-w)
-nmap <c-d> <Plug>(easymotion-bd-w)
-"end of word 
-imap <c-h> <c-o><Plug>(easymotion-bd-e)
-nmap <c-h> <Plug>(easymotion-bd-e)
-"imap <c-c> <c-o><Plug>(easymotion-lineanywhere) 
-"nmap <c-c> <Plug>(easymotion-lineanywhere) 
-imap <c-t> <c-o><Plug>(easymotion-sl)
-nmap <c-t> <Plug>(easymotion-sl)
-"go forward and back
-imap <c-;> <c-o>;
-imap <c-.> <c-o><c-\>
-"imap <c-.> <c-o>.
-
-"wroks with all but N
-nmap T <Plug>(easymotion-sl)
-nnoremap <leader><c-t> <c-t>
-"loofor 2 chars already S "imap <c-s> <c-o><Plug>(easymotion-sn)
-" to handle bug of sear
-
-"needed to be in onload
-"imap <D-a> <c-x><c-o>
-"imap <D-A> <c-x><c-o>
-"inoremap ^] ^X^]
-"inoremap ^L ^X^L
-inoremap <c-k> <c-x><c-n>
-inoremap <c-f> <c-x><c-p>
-imap <c-z> <c-f><tab>
-"imap <c-i> <c-f><S-Tab>
 
 
-function! CompleteInf()
-	let pre= '\(\\ref{\zs\k*$\|\\cite{\zs\k*$\|\k*$\)'
-	let nl=[]
-	let l=complete_info()
-	for k in l['items']
-		call add(nl, k['word']. ' : ' .k['info'] . ' '. k['menu'] )
-	endfor 
-	call fzf#vim#complete(fzf#wrap({ 'source': nl,'prefix':pre, 'reducer': { lines -> split(lines[0], '\zs :')[0] },'sink':function('PInsert2')}))
-endfunction 
 
-"completion by fuzzing of anything
-imap <c-'> <CMD>:call CompleteInf()<CR>
-imap <D-K> <plug>(fzf-complete-word)
-imap <D-k> <plug>(fzf-complete-word)
-imap <D-F> <plug>(fzf-complete-path)
-imap <D-f> <plug>(fzf-complete-path)
-imap <D-J> <plug>(fzf-complete-file-ag)
-imap <D-j> <plug>(fzf-complete-file-ag)
-imap <D-L> <plug>(fzf-complete-line)
-imap <D-l> <plug>(fzf-complete-line)
+"replace vanila
 
-"let g:targets_pairs = '() {} [] <>'
-"let g:textobj#anyblock#blocks = ['(', '{', '[', '<']
-
-"this very dangerous and also quit diff<D-x>
-
-"finds the best next item and complete up to it. in Vim!
-:imap <c-,> <c-X><c-V>
-
-"
-"
-""nerdtree mappings
-"
-"
-"xzt
-"autocmd CmdlineLeave / FileType nerdtree  :call HandleNERD()
-"
-"easymotion
-"map <leader><leader>j <Plug>(easymotion-j)
-"for coc
-
-
-nnoremap , :Leaderf line --popup<CR>
-"faster
-nnoremap <c-,> :Leaderf line --recall<CR>
-
-":Leaderf line --popup<CR><C-K>
-"let g:Lf_CacheDirectory = ""
-
-"nnoremap , :BLines<CR>
-"nmap <c-,> :BLines<CR><C-P>
-"let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
-" I did the switch in code manager.py
-nnoremap <leader>rd <c-L>
-
-nmap <c-_> :let g:EasyMotion_add_search_history=1<CR><Plug>(easymotion-sn)
-nmap <c-s> :let g:EasyMotion_add_search_history=1<CR><Plug>(easymotion-sn)
-
-"nmap  y
-if ($TERM=="xterm-256color")
-	"only on nvim
-	nmap  <C-/> :let g:EasyMotion_add_search_history=1<CR><Plug>(easymotion-sn)
-endif
-
-let i = 1
-while i <= 9
-    execute 'nnoremap <Leader>' . i . ' :' . i . 'tabn<CR>'
-    let i = i + 1
-endwhile
-
-nmap <c-f> :let g:EasyMotion_add_search_history=1<CR><Plug>(easymotion-sn)
-
-" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
-" Without these mappings, `n` & `N` works fine. (These mappings just provide
-" different highlight method and have some other features )
-"map <leader>l <Plug>(easymotion-bd-jk)
-"nmap <leader>L <Plug>(easymotion-overwin-line)
-"nmap <leader>w <Plug>(easymotion-overwin-w)
-"nmap <leader>f <Plug>(easymotion-bd-fl)
-"if has('nvim')
+nnoremap ! `
+nnoremap !! ``
+"the most command marks are in 
+nnoremap <leader>. `.
+nnoremap <leader>' ``
+"recall command
+nmap ~ <c-a>c
+noremap m? ?
+nmap ? <Plug>(easymotion-sl)
+nmap <D-/> <Plug>(easymotion-fl)
 nmap s <Plug>(easymotion-s)
 nmap S <Plug>(easymotion-s2)
 "endif
 "meaning u would be like search everywhere
-
+vmap s <Plug>(easymotion-sl)
 "omap U <Plug>(easymotion-bd-tl)
 vmap u <Plug>(easymotion-bd-fl)
 "vmap U <Plug>(easymotion-bd-tl)
 vmap , <Plug>(easymotion-bd-tl)
 "vnoremap <leader>U U
-vmap <c-s> <Plug>(easymotion-s2)
+"we use t for saving
+nmap <nowait> t :let g:init=1<CR>:w<CR>
 
+" insert a single char
+nnoremap <leader>` `
+nnoremap m` `
+nnoremap <leader>t t
+"we use m for multiple things as seconds leader
+noremap <leader>z m
+nnoremap <leader>F F
+"
+"end only until the end and not one more
+vnoremap <end> $h
 
+nnoremap , :Leaderf line --popup<CR>
+nnoremap <leader><c-t> <c-t>
+
+"wroks with all letters but N
+nmap T <Plug>(easymotion-sl)
+
+"
+" _ mappings 
+noremap _g :diffget<CR>
+noremap _p :diffput<CR>
+nmap _u :LastWindow<CR>
+
+if g:on_ek_computer
+    nmap _U :call fzf#vim#cust_history(reverse(copy(g:lastWindows)))<CR>
+endif
+nmap _. :cd ..<CR>
+nmap _- :cd -<CR>
+"previous file
+nmap _P :wprevious<CR>
+nmap _N :wnext<CR>
+
+"do comment out
+map __ <leader>Cc
+"uncomment
+map _+ <leader>Cu
+"Alternative buffer
+map _# :e #<CR>
+
+nmap _t :exe "tabn ".g:lasttab<CR>
+"Coc _ mappings 
 nnoremap <silent> _a  :<C-u>CocList actions<cr>
 " Manage extensions
 nnoremap <silent> _e  :<C-u>CocList extensions<cr>
@@ -377,6 +127,254 @@ nnoremap <silent> _k  :<C-u>CocPrev<CR>
 nnoremap <silent> _p  :<C-u>CocListResume<CR>
 noremap _b :bnext<CR>
 noremap _B :bprev<CR>
+
+"Grammerous M- mappings
+imap <M-Down> <esc>
+imap <M-Up> <esc>
+imap <M-Left> <esc>
+imap <M-Right> <esc>
+
+nmap <M-Down> <Plug>(grammarous-move-to-next-error)	
+nmap <M-Up> <Plug>(grammarous-move-to-previous-error)
+nmap <M-Left> <Plug>(grammarous-open-info-window)	
+nmap <M-Right> <Plug>(grammarous-fixit)	
+
+
+"F keys
+noremap <F1> :execute ":help " . expand('<cword>')<CR>
+"execut under cursor
+nnoremap <F2> :exe getline(".")<CR>
+vnoremap <F2> "xy:@x<CR>
+
+"nmap <leader><F5> q:i<esc>
+noremap <S-F3> :call Goprev()<CR>
+noremap <S-F4> :call Gonext()<CR>
+nnoremap <S-F6> "xddkk"xp
+nnoremap <S-F7> "xyy"xp
+nnoremap <S-F8> "xdd"xp
+
+
+nmap <F3>        <Plug>VimspectorStepOut
+nmap <F4>        :call vimspector#Launch()<CR>
+nmap <F6>         <Plug>VimspectorContinue
+nmap <F7>        <Plug>VimspectorStepInto
+nmap <F8>        <Plug>VimspectorStepOver
+nmap <F9>         <Plug>VimspectorToggleBreakpoint
+nmap <leader><F9> <Plug>VimspectorToggleConditionalBreakpoint
+nmap _<F9>         <Plug>VimspectorAddFunctionBreakpoint
+
+
+map <silent> <F5>         <Plug>(IPy-Run)
+nmap <S-F5> <leader>rf
+" or \rf
+
+nmap <F13> :call StartSpecialInsert()<CR>i
+nmap <F12> :call StartSpecialInsert()<CR>i
+imap <F12> <c-o>
+imap <F13> <ESC>
+
+
+
+"call DisableKeys()
+
+
+"ctrl commands
+"
+
+"faster
+nnoremap <c-,> :Leaderf line --recall<CR>
+
+
+nmap <C-=> <Plug>(easymotion-next)
+nmap <C--> <Plug>(easymotion-prev)
+nmap <c-_> :let g:EasyMotion_add_search_history=1<CR><Plug>(easymotion-sn)
+
+
+
+"Ctrlspace 
+"let g:CtrlSpaceDefaultMappingKey = ''
+nmap <C-b> :CtrlSpace w<CR>
+"windows on tab
+nmap <c-U> <c-b>w
+
+if ($TERM=="xterm-256color")
+	"only on nvim
+	nmap  <C-/> :let g:EasyMotion_add_search_history=1<CR><Plug>(easymotion-sn)
+endif
+"map <C-CR> <F13>
+"imap <C-CR> <F13>
+"imap <S-CR> <c-o>
+
+imap <c-b> <c-o><Plug>(easymotion-s2)
+imap <c-.> <c-o><Plug>(easymotion-s)
+
+
+"finds the best next item and complete up to it. in Vim!
+":imap <c-,> <c-X><c-V>
+imap <c-,> <c-o><Plug>(easymotion-bd-t)
+
+
+
+
+"Logical, since in normal we have s and S
+"beginning of words
+imap <c-d> <c-o><Plug>(easymotion-bd-w)
+nmap <c-d> <Plug>(easymotion-bd-w)
+"end of word 
+imap <c-h> <c-o><Plug>(easymotion-bd-e)
+nmap <c-h> <Plug>(easymotion-bd-e)
+"imap <c-c> <c-o><Plug>(easymotion-lineanywhere) 
+"nmap <c-c> <Plug>(easymotion-lineanywhere) 
+imap <c-t> <c-o><Plug>(easymotion-sl)
+nmap <c-t> <Plug>(easymotion-sl)
+
+
+nmap <c-s> :let g:EasyMotion_add_search_history=1<CR><Plug>(easymotion-sn)
+vmap <c-s> <Plug>(easymotion-s2)
+
+"search help , lift saving
+nmap <c-f> mH
+nmap <c-g> :call CocActionAsync("doHover")<cr>
+
+nmap <C-e> mn-
+
+nmap <D-E> -mn+
+nmap <D-e> -mn+
+
+"repeat the move 
+imap <c-;> <c-o>;
+imap <c-\> <c-o><c-\>
+"to map <c-;> in normal
+
+imap <c-a> <c-o><c-a>
+inoremap ii
+"complete just one char pumvisible()? " 
+"x
+"
+
+
+
+imap <D-Right> <c-o>W
+imap <D-Left> <c-o>B
+imap <D-Up> <c-h>
+imap <D-Down> <c-d>
+"inoremap <c-k> <Cmd>call feedkeys("\<c-L>",'n')<CR>
+"completes one char or  from dict 
+imap <expr> <C-L>  pumvisible()? "<c-l>" : "<esc>:call RecallInserts()<CR>"
+"complete from dict 
+inoremap  <c-k> <c-x><c-k>
+"does chars 
+inoremap <m-c-k> <c-k>
+inoremap <c-f> <c-x><c-n>
+"imap <c-z> <c-f><up><down>
+"imap <c-z> <CMD>call feedkeys("\<c-f>\<c-r>=SuperTab('n')<c-m>",'')<CR>
+"Greatness , completes the text with one type
+
+
+
+function! DoCz()
+    if pumvisible() 
+        if complete_info()['mode']=='keyword'
+            return complete_info()['selected'] ==-1 ? "\<tab>" : "\<tab>\<s-tab>\<c-f>\<tab>" 
+        else 
+            return complete_info()['selected'] ==-1 ? "\<c-f>\<tab>" : "\<c-f>" 
+        endif 
+    else 
+        return "\<c-f>"
+    endif 
+endfunction 
+
+imap <expr> <c-z> DoCz() 
+imap <M-Space> <c-o>
+imap <S-CR> <c-o>
+" D-mappings
+
+"nmap <silent> <D-J> <Plug>(ale_previous_wrap)
+"nmap <silent> <D-j> <Plug>(ale_previous_wrap)
+"nmap <silent> <D-K> <Plug>(ale_next_wrap)
+"nmap <silent> <D-k> <Plug>(ale_next_wrap) a\n/
+
+imap <D-g> <Plug>(IPy-Complete)
+nmap <D-k> <Plug>(IPy-WordObjInfo) 
+nmap <D-r> :call IPyRun(input('enter python: ','','custom,IPyCompleteForInput'))<CR>
+"nmap <D-r> :call IPyRun(input('enter python: '))<CR>
+nmap <D-I> :let @z=input('enter text: ') <bar> norm "zp<CR>
+nmap <D-i> :let @z=input('enter text: ') <bar> norm "zp<CR>
+
+
+let g:neoterm_automap_keys="<plug>(aaaa)"
+
+"imappings!!
+"c-t c-d c-h same as bef
+
+
+"imap <c-.> <c-o>.
+
+"loofor 2 chars already S "imap <c-s> <c-o><Plug>(easymotion-sn)
+" to handle bug of sear
+
+"needed to be in onload
+"imap <D-a> <c-x><c-o>
+"imap <D-A> <c-x><c-o>
+"inoremap ^] ^X^]
+"inoremap ^L ^X^L
+"go forward and back
+"imap jk <ESC>l" : " 
+"
+" 
+"nmap § :call StartSpecialInsert()<CR>i
+"imap § <c-o>
+inoremap § <c-l>
+
+"imap <c-z> <c-f><c-r>=SuperTab('n')<CR> 
+"
+
+vmap <c-t> :Trans<CR>
+"imap <c-i> <c-f><S-Tab>
+
+function! CompleteInf()
+	let pre= '\(\\ref{\zs\k*$\|\\cite{\zs\k*$\|\k*$\)'
+	let nl=[]
+	let l=complete_info()
+	for k in l['items']
+		call add(nl, k['word']. ' : ' .k['info'] . ' '. k['menu'] )
+	endfor 
+	call fzf#vim#complete(fzf#wrap({ 'source': nl,'prefix':pre, 'reducer': { lines -> split(lines[0], '\zs :')[0] },'sink':function('PInsert2')}))
+endfunction 
+"com
+"completion by fuzzing of anything
+imap <c-'> <CMD>:call CompleteInf()<CR>
+imap <D-K> <plug>(fzf-complete-word)
+imap <D-k> <plug>(fzf-complete-word)
+imap <D-F> <plug>(fzf-complete-path)
+imap <D-f> <plug>(fzf-complete-path)
+imap <D-J> <plug>(fzf-complete-file-ag)
+imap <D-j> <plug>(fzf-complete-file-ag)
+imap <D-L> <plug>(fzf-complete-line)
+imap <D-l> <plug>(fzf-complete-line)
+
+
+
+"let g:targets_pairs = '() {} [] <>'
+"let g:textobj#anyblock#blocks = ['(', '{', '[', '<']
+
+"this very dangerous and also quit diff<D-x>
+
+
+
+
+
+
+" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
+" Without these mappings, `n` & `N` works fine. (These mappings just provide
+" different highlight method and have some other features )
+"map <leader>l <Plug>(easymotion-bd-jk)
+"nmap <leader>L <Plug>(easymotion-overwin-line)
+"nmap <leader>w <Plug>(easymotion-overwin-w)
+"nmap <leader>f <Plug>(easymotion-bd-fl)
+"if has('nvim')
+
+
 "let g:EasyMotion_use_upper = 1
  " type `l` and match `l`&`L`
 "cmd shortcuts
@@ -392,12 +390,17 @@ nmap ]e <Plug>(coc-diagnostic-next-error)
 nmap [e <Plug>(coc-diagnostic-prev-error)
 nmap [h <Plug>(GitGutterPrevHunk)
 nmap ]h <Plug>(GitGutterNextHunk)
+
+""" m mappings
+
+
 nnoremap mb iimport ipdb;ipdb.set_trace()<ESC>
 " jump to current path
 nmap mC :call CopyPath()<CR>
 noremap mc :cd %:p:h<CR>
 nnoremap md :diffupdate<CR>
 nnoremap mf :!open %:p:h<CR>
+nnoremap mF :exec '!open '.getcwd()<CR>
 nmap mF vaF<F2>
 
 
@@ -421,17 +424,12 @@ noremap mM :Mru<CR>
 "newline
 
 map mn o<ESC>D
-nmap <C-e> mn-
-nmap <D-E> -mn+
-nmap <D-e> -mn+
 noremap H ~
 noremap \H H
 noremap \L L
 "nnoremap <leader>H H
 "H is available
 "great!
-nmap <C-=> <Plug>(easymotion-next)
-nmap <C--> <Plug>(easymotion-prev)
 nnoremap <leader>M M
 nmap mL <Plug>(easymotion-lineanywhere)
 
@@ -531,29 +529,8 @@ nnoremap m~ ~
 nnoremap <leader>~ ~
 nmap <M-Space> q:i
 nmap m~ q:i<esc><c-s>
-nmap ~ <c-a>c
 "just opens
 nnoremap mq q:i<esc>
-"nmap <leader><F5> q:i<esc>
-noremap <S-F3> :call Goprev()<CR>
-noremap <S-F4> :call Gonext()<CR>
-nnoremap <S-F6> "xddkk"xp
-nnoremap <S-F7> "xyy"xp
-nnoremap <S-F8> "xdd"xp
-
-nmap <leader>vs         <Plug>VimspectorStop
-nmap <leader>vR         <Plug>VimspectorRestart
-nmap <leader>vp           <Plug>VimspectorPause
-nmap <F3>        <Plug>VimspectorStepOut
-nmap <F4>        :call vimspector#Launch()<CR>
-nmap <F6>         <Plug>VimspectorContinue
-nmap <F7>        <Plug>VimspectorStepInto
-nmap <F8>        <Plug>VimspectorStepOver
-nmap <F9>         <Plug>VimspectorToggleBreakpoint
-nmap <leader><F9> <Plug>VimspectorToggleConditionalBreakpoint
-nmap _<F9>         <Plug>VimspectorAddFunctionBreakpoint
-nmap <leader>vl        :call vimspector#Launch()<CR>
-nmap <leader>vr        :call vimspector#Reset()<CR>
 
 
 "nmap <leader>bh :split <bar> :e ~/.bash_history<CR>,
@@ -635,29 +612,59 @@ nnoremap <silent> <C-a><C-a> <C-a>
   " open FZF in
   " current file's2 directory
   "
-"execut under cursor
-nnoremap <F2> :exe getline(".")<CR>
-vnoremap <F2> "xy:@x<CR>
+"does diff of all files (could be vs version) 
+nmap <leader>GD Git! diff<CR>
+nnoremap <leader>Gs :Gstatus<CR>
+nnoremap <leader>Gc :Gcommit -v -q<CR>
+nnoremap <leader>Ga :Gcommit --amend<CR>
+nnoremap <leader>Gt :Gcommit -v -q %<CR>
+nnoremap <leader>Gd :Gdiff<CR>
+nnoremap <leader>Ge :Gedit<CR>
+nnoremap <leader>Gr :Gread<CR>
+nnoremap <leader>Gw :Gwrite<CR>
+nnoremap <leader>Gl :silent! Glog<CR>
+nnoremap <leader>Gp :Ggrep<Space>
+nnoremap <leader>Gm :Gmove<Space>
+nnoremap <leader>Gb :Git branch<Space>
+nnoremap <leader>Go :Git checkout<Space>
+nnoremap <leader>Gps :Dispatch! git push<CR>
+nnoremap <leader>Gpl :Dispatch! git pull<CR>
 
-noremap <F1> :execute ":help " . expand('<cword>')<CR>
+
+map <silent> <leader>? <Plug>(IPy-WordObjInfo)
+" opens terminal in new window
+"
+noremap <leader>od :exec ":vs " . getcwd()<CR>
+nmap <leader>at :AutoSaveToggle<CR>
+nnoremap <leader>em :call Exec("messages")<CR>
+"enable save
+nnoremap <leader>es :let b:auto_save = 1<CR>
+nnoremap <leader>ES :let b:auto_save = 0<CR>
+
+nnoremap <leader>do :diffoff<CR>
+nnoremap <leader>du :diffupdate<CR>
+nnoremap <leader>dt :diffthis<CR>
+
+nmap <leader>rf  :exec ":call IPyRun(\"%run '". expand('%:p') . "\'\")"<CR>
+map <silent> <leader>rb <Plug>(IPy-Interrupt)
+nmap <leader>rt <Plug>(IPy-Terminate)
+map <leader>rc <Plug>(IPy-RunCell)
+"redraw
+nnoremap <leader>rd <c-L>
+
+"todo FZF
+nnoremap <leader>oc :copen<CR>
+"opens file
+nmap <leader>of :vsp<CR>ml<D-Bslash>
+nmap <leader>OF :vsp<CR>mm
+"open python
+nmap <leader>op :sp <bar> :exec ':'. bufnr('\[jupyter\]') .'buffer'<CR><c-w>k
 
 
-
-
-
-
-function! TermO()
-	let k=g:neoterm.last_id+1
-	Tnew
-
-	exe k."T . /etc/bashrc"
-	exe k."T . ~/.bash_profile"
-	exe k."T set -o emacs"
-	if g:on_ek_computer
-	exe k."T bind '\"\\C-r\": \"\\C-ahstr -- \\C-j\"'"
-	endif
-	exe k."Tclear"
-endfunction
+nnoremap <leader>oi :call RecallInserts2()<CR>
+nnoremap <leader>ol :lopen<CR>
+nnoremap <leader>ov :TN ~/vimpy3/.vimrc<CR>
+nnoremap <leader>oE :!
 
 function! TermOV(use_file_dir)
 	set splitright
@@ -678,44 +685,43 @@ function! TermOV(use_file_dir)
 	exe k."Tclear"
 endfunction
 
-noremap <leader>od :exec ":vs " . getcwd()<CR>
-nmap <leader>at :AutoSaveToggle<CR>
-nnoremap <leader>em :call Exec("messages")<CR>
-"enable save
-nnoremap <leader>es :let b:auto_save = 1<CR>
+function! TermO()
+	let k=g:neoterm.last_id+1
+	Tnew
 
-nnoremap <leader>do :diffoff<CR>
-nnoremap <leader>du :diffupdate<CR>
-nnoremap <leader>dt :diffthis<CR>
-" opens terminal in new window
-"todo FZF
-nnoremap <leader>oc :copen<CR>
-"opens file
-nmap <leader>of :vsp<CR>ml<D-Bslash>
-nnoremap <leader>oi :call RecallInserts2()<CR>
-nnoremap <leader>ol :lopen<CR>
-nnoremap <leader>ov :TN ~/vimpy3/.vimrc<CR>
-nnoremap <leader>vl :TN ~/.vim/vimlog.log<CR>
-nnoremap <leader>oE :!
+	exe k."T . /etc/bashrc"
+	exe k."T . ~/.bash_profile"
+	exe k."T set -o emacs"
+	if g:on_ek_computer
+	exe k."T bind '\"\\C-r\": \"\\C-ahstr -- \\C-j\"'"
+	endif
+	exe k."Tclear"
+endfunction
+
 "open terminal in new tab
 nnoremap <leader>ot :tabnew <bar> :call TermO()<CR>:call feedkeys("i")<CR>
 "open terminal in new window
-nmap <leader>tt :call TermOV(0)<CR>li
-nmap <leader>Tt :call TermOV(1)<CR>li
+nmap <leader>tt :call TermOV(0)<CR>
+nmap <leader>Tt :call TermOV(1)<CR>
+
+nnoremap <leader>vL :TN ~/.vim/vimlog.log<CR>
+nmap <leader>vs         <Plug>VimspectorStop
+nmap <leader>vR         <Plug>VimspectorRestart
+nmap <leader>vp         <Plug>VimspectorPause
+nmap <leader>vl        :call vimspector#Launch()<CR>
+nmap <leader>vr        :call vimspector#Reset()<CR>
 "sets python 2/3
-"nmap <leader>s2 :let $PYTHONPATH='/usr/local/lib/python2.7/site-packages:/Users/eyalkarni/utils/jmpacket:/Users/eyalkarni/utils:/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages'<CR>:CocCommand python.setInterpreter<CR>
-"'/Users/Library/Frameworks/Python.framework/Versions/2.7/bin/python
-"nmap <leader>s3 :let $PYTHONPATH='/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/'<CR>:CocCommand python.setInterpreter<CR>
+nmap <leader>S2 :let $PYTHONPATH='/Users/eyalkarni/utils/jmpacket:/Users/eyalkarni/utils:/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages'<CR>
+nmap <leader>S3 :let $PYTHONPATH='/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/'<CR>
 "TODO:: to add site-packages
-nmap <leader>s3  :call coc#config('python', {'jediEnabled': v:false, 'pythonPath': '/Library/Frameworks/Python.framework/Versions/3.7/bin/python3'})<CR>:CocRestart<CR>
-nmap <leader>s2  :call coc#config('python', {'jediEnabled': v:false, 'pythonPath': '/Library/Frameworks/Python.framework/Versions/2.7/bin/python'})<CR>:CocRestart<CR>
+nmap <leader>s3  :call coc#config('python', {'jediEnabled': v:false, 'pythonPath': '/Users/eyalkarni/.pyenv/shims/python'})<CR>:CocRestart<CR>
+nmap <leader>s2  :call coc#config('python', {'jediEnabled': v:true, 'pythonPath': '/Library/Frameworks/Python.framework/Versions/2.7/bin/python'})<CR>:CocRestart<CR>
 "
 
 "start TeX
 nmap <leader>st :set filetype=tex<CR>:w<CR>itemplate<TAB>a<esc>:VimtexToggleMain<CR>
 nmap <leader>so :let tt=expand('%:t')<CR>:VimtexCompileOutput<CR>:exe ":MC ". tt . ":"<CR>
 
-noremap <leader>z m
 "nnoremap <leader>c :only<CR>
 ""closes other tabs
 "noremap Q :call SaveLastWindow()<CR> :close<CR>
@@ -730,21 +736,21 @@ nnoremap ZB :call CloseAllBuffersButCurrent()<CR>
 
 nnoremap <silent> <Leader>= :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
 nnoremap <silent> <Leader>- :exe "vertical resize " . (winwidth(0) * 2)/3<CR>
+
+"to use ml mj mk 
 nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>l :wincmd l<CR>
+nnoremap <leader>m :tabnext<CR>
+nnoremap <leader>n :tabprevious<CR>
+
 nmap ml <leader>l
 nmap mj <leader>j
 nmap mk <leader>k
 nmap mh :wincmd h<CR>
-autocmd  FileType * vmap <nowait> <buffer> aF <Plug>(textobj-function-A)
-autocmd  FileType * nnoremap <nowait> <buffer> <leader>h :wincmd h<CR>
-nnoremap <leader>m :tabnext<CR>
-nnoremap <leader>n :tabprevious<CR>
 
-" insert a single char
-nnoremap <leader>` `
-nnoremap m` `
+autocmd  FileType * nnoremap <nowait> <buffer> <leader>h :wincmd h<CR>
+
 "avabnnoremap2 <leader>s :exec "normal i".nr2chaar(getchar())."\e"<CR>
 function! InsertBefore(count) range
 	if a:count==0
@@ -760,13 +766,15 @@ function! InsertBefore(count) range
         let @z= t
         ":normal "zp
         if l>1
-		exec ":normal a"."\<c-r>='".nr2char(t)."'"."\<ESC>"
+		exec ":normal a"."\<c-r>=nr2char(".t.")\<ESC>"
     else
-		exec ":normal i"."\<c-r>='".nr2char(t)."'"."\<ESC>"
+		exec ":normal i"."\<c-r>=nr2char(".t.")\<ESC>"
+		"exec ":normal i"."\<c-r>='".nr2char(t)."'"."\<ESC>"
     endif
 		"redraw
 	endfor 
 endfunction
+
 function! InsertAfter(count) range
 	if a:count==0
 		let l=1
@@ -780,45 +788,25 @@ function! InsertAfter(count) range
 		endif
         let @z= t
         ":normal "zp
-		exec ":normal a"."\<c-r>='".nr2char(t)."'"."\<ESC>"
+		exec ":normal a"."\<c-r>=nr2char(".t.")\<ESC>"
 		"redraw
 	endfor 
 endfunction
-function! Vv() range
-	if v:count==0
-		let l=1
-	else
-		let l=v:count
-	endif
-	for j in range(l)
-		let t=getchar()
-		if t==27
-			break
-		endif
-		if j==0 
-		exec "normal i"."\<c-r>='".nr2char(t)."'"."\<ESC>"
-		else
-		exec "normal a"."\<c-r>='".nr2char(t)."'"."\<ESC>"
-	endif 
-		redraw
-	endfor 
-endfunction
+
 nmap ` i
 imap ` <ESC>
 inoremap <c-]> `
 imap <c-`> <c-O>
 nmap <c-`> <esc>
 "inserts one char (or more with count)
-nmap F :<C-U>call InsertBefore(v:count1)<CR>
-nmap <C-F> :<C-U>call InsertAfter(v:count1)<CR>
+nmap f :<C-U>call InsertBefore(v:count1)<CR>
+nnoremap F f
+nmap <d-f> :<C-U>call InsertAfter(v:count1)<CR>
+"duplicate in onload because of mapping
+"
 "nnoremap m= =
 "nmap ` :exec "normal i".nr2char(getchar())."\e"<CR>
 "appends one char
-"nmap ! :call Vu()<CR>
-"nmap \! 10:call Vu()<CR>
-"nmap \` 10:call Vu()<CR>
-nnoremap ! `
-nnoremap !! ``
 "nthis isnoremap <leader>S :exec "normal a".nr2char(getchar())."\e"<CR>
 nmap <leader>i -o
 
@@ -838,13 +826,16 @@ nnoremap DD "zdd
 "C to ci
 nnoremap C :call StartSpecialInsert()<CR>ci
 nnoremap cc C
-nnoremap \C cc 
+nnoremap <leader>C cc 
 
 nnoremap c "zc
 "vnoremap cc "zcc
 vnoremap c "zc
-"to have the clipboard not changed on pasting visual " would still be as usual
-vnoremap p p:let @+=@0<CR>
+
+"to have the clipboard not changed on pasting visual " would still be as
+"usual. Z will keep it 
+vnoremap p p:let @z=@"<CR>:let @*=@0<CR>:let @"=@0<CR>
+
 "cnnoremap <leader>. @:
 nnoremap <C-.> @:
 
@@ -865,7 +856,7 @@ noremap <leader>Y "zyi
 "omap i, ?[\,(]?e+1<CR>cv/[\,)]/s-1<CR>
 nmap ci, dv?[\,(]?e+1<CR>cv/[\,)]/s-1<CR>
 "nmap di, dv?[\,(]?e+1<CR>dv/[\,)]/s-1<CR>
-imap <C-L> <esc>:call RecallInserts()<CR>
+
 
 " for ansi keyboard
 "nnoremap ± :set incsearch<CR>/
@@ -892,26 +883,9 @@ nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
 
 
-"ctrl maps
+"translates
+nmap <leader><c-t> vaw:Trans<CR>
 
-nmap <silent> <D-J> <Plug>(ale_previous_wrap)
-nmap <silent> <D-j> <Plug>(ale_previous_wrap)
-nmap <silent> <D-K> <Plug>(ale_next_wrap)
-nmap <silent> <D-k> <Plug>(ale_next_wrap)
-
-
-nmap <leader>rf  :exec ":call IPyRun(\"%run '". expand('%:p') . "\'\")"<CR>
-map <silent> <F5>         <Plug>(IPy-Run)
-map <silent> <leader>rb <Plug>(IPy-Interrupt)
-nmap <leader>rt <Plug>(IPy-Terminate)
-map <leader>rc <Plug>(IPy-RunCell)
-imap <silent> <D-J> <Plug>(IPy-Complete)
-imap <silent> <D-j> <Plug>(IPy-Complete)
-map <silent> <leader>? <Plug>(IPy-WordObjInfo)
-nmap <D-R> :call IPyRun(input('enter python: '))<CR>
-nmap <D-r> :call IPyRun(input('enter python: '))<CR>
-nmap <D-I> :let @z=input('enter text: ') <bar> norm "zp<CR>
-nmap <D-i> :let @z=input('enter text: ') <bar> norm "zp<CR>
 " terminal mappings
 if has('vim')
 	:tnoremap <C-V> <C-W>"+
@@ -956,13 +930,12 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gR <Plug>(coc-refactor)
-nmap <leader>qf  <Plug>(coc-fix-current)
-nmap <leader>ac  <Plug>(coc-codeaction)
-nmap <leader>rn <Plug>(coc-rename)
+nmap gC  <Plug>(coc-fix-current)
+nmap gA  <Plug>(coc-codeaction)
+nmap gR <Plug>(coc-rename)
 
 
 nmap <BS> :ALEDetail<CR>
-nmap <c-g> :call CocActionAsync("doHover")<cr>
 "map <silent> <C-c> <Plug>(coc-cursors-position)
 "nmap <silent> <C-d> <Plug>(coc-cursors-word)*
 
@@ -971,9 +944,6 @@ nmap <c-g> :call CocActionAsync("doHover")<cr>
 
 "silent! call repeat#set("H", -1)
 
- "let g:UltiSnipsJumpForwardTrigger = '<tab>'
- "let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
- "
 
 ":call UltiSnips#ExpandSnippet()<CR>
 "strange that I have to change this
@@ -1024,4 +994,87 @@ noremap <leader>gl :YcmCompleter GoToDeclaration<CR>
 	":call feedkeys('5')
 "endfunction
 
-nmap  :qa!
+nmap <M-C-Q> :qa!
+
+"nnoremap , :BLines<CR>
+"nmap <c-,> :BLines<CR><C-P>
+"
+"let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
+" I did the switch in code manager.py
+"
+":inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
+":inoremap <S-b> <C-R>=STab_Or_Complete()<CR>
+
+
+
+"motion sickness
+"
+"let g:sickness#expression#preferred_shortcut_map = 'opendelim'  " uses {i,a}{(,{,[,<} for expression text objects
+"let g:sickness#expression#preferred_shortcut_map = 'closedelim' " uses {i,a}{),},],>} for expression text objects
+let g:sickness#expression#preferred_shortcut_map = 'char'       " uses {i,a}{b,B,r,a} for expression text objects
+
+" or if you want to set your own mappings
+"let g:sickness#expression#use_default_maps = 0
+xmap iit <cmd>call sickness#textobj#indentation#motion(v:false, 't')<CR>
+omap iit <cmd>call sickness#textobj#indentation#motion(v:false, 't')<CR>
+""letvmap iit <plug>(textobj-sickness-indentation-top-i)
+"omap ait <plug>(textobj-sickness-indentation-top-a)
+"vmap ait <plug>(textobj-sickness-indentation-top-a)
+"omap ieb <plug>(textobj-sickness-expression-parenthesis-i)
+"xmap ieb <plug>(textobj-sickness-expression-parenthesis-i)
+"omap aeb <plug>(textobj-sickness-expression-parenthesis-a)
+"xmap aeb <plug>(textobj-sickness-expression-parenthesis-a)
+
+"omap ieB <plug>(textobj-sickness-expression-brace-i)
+"xmap ieB <plug>(textobj-sickness-expression-brace-i)
+"omap aeB <plug>(textobj-sickness-expression-brace-a)
+"xmap aeB <plug>(textobj-sickness-expression-brace-a)
+
+"omap ier <plug>(textobj-sickness-expression-bracket-i)
+"xmap ier <plug>(textobj-sickness-expression-bracket-i)
+"omap aer <plug>(textobj-sickness-expression-bracket-a)
+"xmap aer <plug>(textobj-sickness-expression-bracket-a)
+
+"omap iea <plug>(textobj-sickness-expression-chevron-i)
+"xmap iea <plug>(textobj-sickness-expression-chevron-i)
+"omap aea <plug>(textobj-sickness-expression-chevron-a)
+"xmap aea <plug>(textobj-sickness-expression-chevron-a)
+let g:sickness#line#use_default_maps = 0
+
+ omap iL <plug>(textobj-sickness-line-i)
+ xmap iL <plug>(textobj-sickness-line-i)
+ omap aL <plug>(textobj-sickness-line-a)
+ xmap aL <plug>(textobj-sickness-line-a) 
+
+let g:sickness#field#use_default_maps = 0
+omap iFb <plug>(textobj-sickness-field-parenthesis-i)
+vmap iFb <plug>(textobj-sickness-field-parenthesis-i)
+omap aFb <plug>(textobj-sickness-field-parenthesis-a)
+vmap aFb <plug>(textobj-sickness-field-parenthesis-a)
+
+omap iFB <plug>(textobj-sickness-field-brace-i)
+vmap iFB <plug>(textobj-sickness-field-brace-i)
+omap aFB <plug>(textobj-sickness-field-brace-a)
+vmap aFB <plug>(textobj-sickness-field-brace-a)
+
+omap iFr <plug>(textobj-sickness-field-bracket-i)
+vmap iFr <plug>(textobj-sickness-field-bracket-i)
+omap aFr <plug>(textobj-sickness-field-bracket-a)
+vmap aFr <plug>(textobj-sickness-field-bracket-a)
+
+omap iFa <plug>(textobj-sickness-field-chevron-i)
+vmap iFa <plug>(textobj-sickness-field-chevron-i)
+omap aFa <plug>(textobj-sickness-field-chevron-a)
+vmap aFa <plug>(textobj-sickness-field-chevron-a)
+let g:sick_symbol_default_mappings =0
+
+"textobj-function
+autocmd  FileType * vmap <nowait> <buffer> aF <Plug>(textobj-function-A)
+
+"call popsikey#register('<leader>g', [
+        "\ #{key: 'g', info: 'status', action: ":Gstatus\<CR>", flags: 'n'},
+        "\ #{key: 'c', info: 'commit', action: ":Gcommit\<CR>", flags: 'n'},
+        "\ ],
+        "\ {})
+"call popsikey#register('<leader>g', [ {'key': 'g', 'info': 'status', 'action': ":Gstatus\<CR>", 'flags': 'n'}], {})
+

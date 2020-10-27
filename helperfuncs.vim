@@ -252,10 +252,10 @@ function! MakeItFaster(adv)
 	:autocmd! InsertLeave *
 	:autocmd! TextYankPost *
     ":syntax disable
-	augroup fugitive
-		autocmd! BufWriteCmd *
-		autocmd! FileWriteCmd *
-	augroup END
+	"augroup fugitive
+		"autocmd! BufWriteCmd *
+		"autocmd! FileWriteCmd *
+	"augroup END
 	endif
 	":GitGutterDisable
 	"autocmd! BufReadPre //*
@@ -315,8 +315,8 @@ if uu==1:
             "justMyCode":"true",
             "program": prog,
             "args":[],
-            "env" :
-            {"PYTHONPATH":"/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/"}
+            #"env" :
+            #            {"PYTHONPATH":"/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/"}
           }
         }
       }
@@ -360,7 +360,7 @@ if uu==1:
             "program": prog,
             "args":[],
             "env" :
-            {"PYTHONPATH":"/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/"}
+            #{"PYTHONPATH":"/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/"}
           }
         }
       }
