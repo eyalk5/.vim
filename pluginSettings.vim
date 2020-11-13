@@ -567,13 +567,26 @@ let g:coc_files=' * '
  " } ,
  "
  "vimspector
- "
- "
-"let g:vimspector_base_dir=expand( '$HOME/.vim/plugged/vimspector' )
+" "
+ ""
+""let g:vimspector_base_dir=expand( '$HOME/.vim/plugged/vimspector' )
  
-"let g:vimspector_sidebar_width = 80
-"let g:vimspector_code_minwidth = 85
-"let g:vimspector_code_maxwidth = 105
-"let g:vimspector_terminal_minwidth = 75
-"let g:vimspector_terminal_maxwidth = 85
-"let g:vimspector_bottombar_height = 25
+""let g:vimspector_sidebar_width = 80
+""let g:vimspector_code_minwidth = 85
+""let g:vimspector_code_maxwidth = 105
+""let g:vimspector_terminal_minwidth = 75
+""let g:vimspector_terminal_maxwidth = 85
+""let g:vimspector_bottombar_height = 25
+""{
+""  "reportGeneralTypeIssues": false,
+""
+""   "reportUnknownParameterType":false,
+""
+""   "reportUnknownArgumentType":false,
+""
+""   "reportUnknownLambdaType":false,
+""
+""   "reportUnknownVariableType":false,
+""
+""   "reportUnknownMemberType":false
+""   }

@@ -1,4 +1,7 @@
-
+function! ConvHex()
+    let x=input('enter num:')
+    exe "py3  print(hex(".x ."))"
+endfunction 
 function! ToggleVerbose()
     if !&verbose
         :!rm ~/.vim/verbose.log
@@ -90,10 +93,10 @@ function! CloseAllNR()
 endfunction
 
 function! Goprev()
-    exec 'redir @a | silent ls | redir END'
-    if match(@a,'"\[Location List\]"') >= 0
+    exec 'redir @x | silent ls | redir END'
+    if match(@x,'"\[Location List\]"') >= 0
             lprev
-    elseif match(@a,'"\[Quickfix List\]"') >= 0
+    elseif match(@x,'"\[Quickfix List\]"') >= 0
             cprev
     else
             exec 'echo "Neither Location or Quicklist found!"'
@@ -101,10 +104,10 @@ function! Goprev()
 endfunction
 
 function! Gonext()
-    exec 'redir @a | silent ls | redir END'
-    if match(@a,'"\[Location List\]"') >= 0
+    exec 'redir @x | silent ls | redir END'
+    if match(@x,'"\[Location List\]"') >= 0
             lnext
-    elseif match(@a,'"\[Quickfix List\]"') >= 0
+    elseif match(@x,'"\[Quickfix List\]"') >= 0
             cnext
     else
             "exec 'echo "Neither Location or Quicklist found!"'
@@ -114,19 +117,19 @@ endfunction
 
 "executes command, return lines as string
 function! MinExec(cmd)
-	redir @a
+	redir @x
 	exec printf('silent %s',a:cmd)
 	redir END
-	return @a
+	return @x
 endfunction
 
 "executes command , opens in new tab all the lines. useful in cases of :map
 function! Exec(cmd)
-	redir @a
+	redir @x
 	exec printf('silent %s',a:cmd)
 	redir END
     tabnew
-	norm "ap
+	norm "xp
 endfunction
 
 
@@ -230,7 +233,7 @@ endfunction
 
 function! HandleCommand(item)
 	call feedkeys("q:")
-	call feedkeys("G?\\V".escape(a:item,'\/?')."\<CR>")
+    call feedkeys("G?\\V".escape(a:item,'\/?')."\<CR>",'n')
 endfunction
 
 function! BH(item)

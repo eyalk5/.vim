@@ -506,7 +506,7 @@ function! WhichTab(filename)
     endfor
 
 endfunction
-command! -nargs=* -complete=file TN if HandleTN(<q-args>) <bar>  :let tab=WhichTab(<f-args>) <bar> if tab==1 <bar> :tabnew <args> <bar> :else <bar> :exe  'norm '.tab.'gt' <bar> endif <bar> endif
+command! -nargs=* -complete=file TN if HandleTN(<q-args>) <bar>  :let tab=WhichTab(<f-args>) <bar> if tab==0 <bar> :tabnew <args> <bar> :else <bar> :exe  'norm '.tab.'gt' <bar> endif <bar> endif
 
 
 "" change window local working directory

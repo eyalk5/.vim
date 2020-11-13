@@ -20,7 +20,7 @@
 " also 'I and `I made to work.
 " let us remember that ! is `
 " Gdiffsplit! for merge!!!!
-let g:on_ek_computer=(filewritable("/Users/eyalkarni")==2)
+let g:on_ek_computer=(filewritable("/Users/ekarni")==2)
 let g:on_vimr= ( $VIM=~# ".*VimR.*")
 
 "silent !pyenv global 2.7

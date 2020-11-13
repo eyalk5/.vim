@@ -350,7 +350,7 @@ autocmd filetype python let b:auto_save = 1
 
 
 
-autocmd TermOpen * startinsert
+"autocmd! TermEnter * :startinsert
 
 "commands
 "

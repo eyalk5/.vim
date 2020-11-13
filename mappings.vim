@@ -439,8 +439,10 @@ function! MPf()
 	let @+ =substitute(@+,"^[ \t]*","",'')
 	exec "norm \"+]P"
 endfunction
-nnoremap mp o <esc>:s/[^ \t]//ge<CR>:call MPf()<CR> 
+nnoremap mp o <esc>:s/[^ \t]//ge<CR>:call MPf()<CR>
+ 
 "nnoremap <silent> mp :call Putline("]p")<CR>
+ 
 
 "function! Putline(how)
 	 "let l:type = getregtype(v:register)
@@ -594,8 +596,8 @@ nnoremap <silent> <C-a>L m':LeaderfLineAll<CR>
 nnoremap <silent> <C-a>r :LeaderfRgRecall<CR>
 "files current dir
 "nnoremap <silent> <C-a>f :call FZFOpen(':Files')<CR>
-nnoremap <c-a>f :CtrlPCurWD<CR>
-"nnoremap <silent> <C-a>f :exe ":LeaderfFile ".getcwd()<CR>
+"nnoremap <c-a>f :CtrlPCurWD<CR>
+nnoremap <silent> <C-a>f :exe ":LeaderfFile ".getcwd()<CR>
 "files current file
 "66444
 nnoremap <silent> <C-a>F :exe ":LeaderfFile " . expand('%:p:h')<CR>
@@ -701,8 +703,8 @@ endfunction
 "open terminal in new tab
 nnoremap <leader>ot :tabnew <bar> :call TermO()<CR>:call feedkeys("i")<CR>
 "open terminal in new window
-nmap <leader>tt :call TermOV(0)<CR>
-nmap <leader>Tt :call TermOV(1)<CR>
+nmap <leader>tt :call TermOV(0)<CR>li
+nmap <leader>Tt :call TermOV(1)<CR>li
 
 nnoremap <leader>vL :TN ~/.vim/vimlog.log<CR>
 nmap <leader>vs         <Plug>VimspectorStop
@@ -714,7 +716,7 @@ nmap <leader>vr        :call vimspector#Reset()<CR>
 nmap <leader>S2 :let $PYTHONPATH='/Users/eyalkarni/utils/jmpacket:/Users/eyalkarni/utils:/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages'<CR>
 nmap <leader>S3 :let $PYTHONPATH='/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/'<CR>
 "TODO:: to add site-packages
-nmap <leader>s3  :call coc#config('python', {'jediEnabled': v:false, 'pythonPath': '/Users/eyalkarni/.pyenv/shims/python'})<CR>:CocRestart<CR>
+nmap <leader>s3  :call coc#config('python', {'jediEnabled': v:true, 'pythonPath': '/Users/eyalkarni/.pyenv/shims/python'})<CR>:CocRestart<CR>
 nmap <leader>s2  :call coc#config('python', {'jediEnabled': v:true, 'pythonPath': '/Library/Frameworks/Python.framework/Versions/2.7/bin/python'})<CR>:CocRestart<CR>
 "
 
@@ -968,7 +970,7 @@ nnoremap <leader>gI :YcmCompleter GoToInclude<CR>
 nnoremap <leader>gr :YcmCompleter GoToReferences<CR>
 nnoremap <leader>gT :YcmCompleter GetType<CR>
 "
-au filetype c nnoremap K :YcmCompleter GetDoc<CR>
+"au filetype c nnoremap K :YcmCompleter GetDoc<CR>
 noremap <leader>gl :YcmCompleter GoToDeclaration<CR>
 "let g:ycm_key_invoke_completion="<C-b>" "ctrl i ?
 "let g:ycm_key_detailed_diagnostics='<leader>wd'
