@@ -34,6 +34,10 @@ exe 'source' . g:vimloc . "/vimsettings.vim"
 "source ~/.vim2/autoload/repmo.vim
 "
 call plug#begin('~/.vim/plugged')
+"match inner blocks and z% 
+Plug 'andymass/vim-matchup'
+"match strings 
+Plug 'airblade/vim-matchquote'
 "Plug 'ggvgc/vim-fuzzysearch'
 Plug 'benknoble/popsikey'
 Plug 'jacob-ogre/vim-syncr'
@@ -43,7 +47,7 @@ Plug 'rbtnn/vim-vimscript_lasterror'
 "Plug 'mg979/vim-yanktools'
 Plug 'matze/vim-tex-fold' 
 ":if !has('nvim')
-	Plug 'puremourning/vimspector'
+Plug 'puremourning/vimspector'
 "endif
  "Plug 'jlanzarotta/bufexplorer'
 "Plug 'AndrewRadev/undoquit.vim'

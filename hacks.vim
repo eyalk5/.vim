@@ -296,12 +296,12 @@ command! -nargs=1 -range GL <line1>,<line2>call GL(<f-args>)
 
 "Matches
 "
-
-command! -nargs=1 MESC call Matches(<f-args>)
-command! -nargs=1 MC call MatchesF(<f-args>)
-command! -nargs=1 MW call MatchesF('\<'.<f-args>.'\>')
-command! -nargs=1 M call MatchesF('\c'.<f-args>)
 command! -nargs=* VG call Matches2(<f-args>)
+
+command! -nargs=1 MESC call MatchesF(<f-args>)
+command! -nargs=1 MC call Matches(<f-args>)
+command! -nargs=1 MW call Matches('\<'.<f-args>.'\>')
+command! -nargs=1 M call Matches('\c'.<f-args>)
 ca Y M
 
 function! Matches(pat)
@@ -517,3 +517,34 @@ command! -nargs=* -complete=file TN if HandleTN(<q-args>) <bar>  :let tab=WhichT
   "endif
   "exe ':'.winid.'windo lcd '. a:cwd
 "endfunction
+
+
+
+function! s:register_list()
+  " capture register output
+  redir => registers_out
+  silent registers
+  redir END
+
+  " put into List
+  let register_lines = split(registers_out, '\n')
+
+  " remove header: '--- Registers ---'
+  call remove(register_lines, 0)
+  return register_lines 
+endfunction
+
+function! s:register_value(lines)
+  return eval("@".matchstr(join(a:lines), '.', 1))
+endfunction
+
+function! s:register_insert(e)
+  execute 'normal '.matchstr(a:e, '^".').'p '
+endfunction
+
+nnoremap <silent> "<c-r> :call fzf#run({
+      \   'source':  <sid>register_list(),
+      \   'sink':    function('<sid>register_insert'),
+      \   'options': "+m",
+      \   'down':    len(<sid>register_list()) + 2,
+      \ })<CR>

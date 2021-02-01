@@ -368,6 +368,8 @@ if !exists('g:showhid')
 endif
 endfunction
 
+let g:NETRDefaultMapSkip = ['m']
+let g:NETRBookmarkGo = ["M"]
 "let g:NETRDefaultMapSkip = ['l']
 "let g:NETRBufPanelOpen = ['l']
 let g:NETRMinFileNumToLoadInParallel=9999999999
@@ -390,6 +392,7 @@ call EasyMotion#command_line#cmap(["<C-K>","<CR><CR>:call DoOpen()<CR>"])
 :autocmd FileType netranger cmap <buffer> <C-N> :call DoClose()<CR>
 :autocmd FileType netranger nnoremap <buffer> cd :PY netranger.api.NETRApi.ranger.NETRVimCD()<CR>
 :autocmd FileType netranger nnoremap <buffer> CD :exe "edit ". getcwd()<CR>
+":autocmd FileType netranger mm :LeaderfMru<CR>
 ":autocmd FileType netranger nnoremap <buffer> <CR>  :call feedkeys("ep")<CR>
 :autocmd FileType netranger command! -nargs=* DF call Duplicate(<f-args>)
 
@@ -406,7 +409,7 @@ call EasyMotion#command_line#cmap(["<C-K>","<CR><CR>:call DoOpen()<CR>"])
 "let g:Lf_PreviewInPopup = 0 "causes bug 417
 let g:Lf_PreviewResult = {
 			\ 'File': 0,
-			\ 'Buffer': 0,
+			\ 'Buffer': 1,
 			\ 'Mru': 0,
 			\ 'Tag': 0,
 			\ 'BufTag': 1,
@@ -528,10 +531,18 @@ let g:vimtex_compiler_latexmk = {
 "supertab 
 let g:SuperTabMappingForward = '<tab>'
 let g:SuperTabMappingBackward = '<s-tab>'
-let g:SuperTabDefaultCompletionType = "<c-n>"
-let g:SuperTabContextDefaultCompletionType = "<c-n>" 
+let g:SuperTabDefaultCompletionType = "<c-x><c-n>"
+let g:SuperTabContextDefaultCompletionType = "<c-x><c-n>" 
 let g:SuperTabLongestEnhanced=1
 let g:SuperTabLongestHighlight=1
+
+
+"custom
+
+"
+
+
+"let $NVIM_COC_LOG_LEVEL = 'debug
 
 "custom vimtex setting
 "YCM
@@ -590,3 +601,7 @@ let g:coc_files=' * '
 ""
 ""   "reportUnknownMemberType":false
 ""   }
+"textobj
+"
+let g:textobj_function_no_default_key_mappings=1
+

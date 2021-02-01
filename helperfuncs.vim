@@ -117,10 +117,18 @@ endfunction
 
 "executes command, return lines as string
 function! MinExec(cmd)
-	redir @x
+	redir => tmp
 	exec printf('silent %s',a:cmd)
 	redir END
-	return @x
+	return tmp
+endfunction
+
+"Remaps repeat pairs
+function! RepRemap(mapA,mapB)
+let varA=maparg(a:mapA,'n')
+let varB=maparg(a:mapB,'n')
+execute "nmap <expr> " . a:mapA . " repmo#Key('".varA ."', '". varB. "')"
+execute "nmap <expr> " . a:mapB . " repmo#Key('".varB ."', '". varA. "')"
 endfunction
 
 "executes command , opens in new tab all the lines. useful in cases of :map
@@ -179,6 +187,7 @@ function! HandleH()
 	let func=input('Enter python to execute(match is the input):	')
 	echo "\<CR>"
 	let retInVim=RunPython(@x,func)
+    return retInVim
 endfunction
 
 function! HandleCF()
@@ -232,7 +241,7 @@ function! CdDir(item)
 endfunction
 
 function! HandleCommand(item)
-	call feedkeys("q:")
+	call feedkeys("zq:")
     call feedkeys("G?\\V".escape(a:item,'\/?')."\<CR>",'n')
 endfunction
 

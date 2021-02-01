@@ -65,6 +65,7 @@ else
 endif
 endif
 
+
 if g:on_ek_computer
 	let $PYENV_ROOT="/Users/eyalkarni/.pyenv"
 	let g:python_host_prog= "/Users/eyalkarni/.pyenv/shims/python"
@@ -89,7 +90,7 @@ if or(or(has('python_dynamic'),has('python')),has('python3'))
 	" #set noshowmode
 	set nowrap
 	set number
-	set completeopt=menu
+	set completeopt=menuone
 	set completeopt+=noinsert 
     set mousemodel=popup
 endif
@@ -285,7 +286,7 @@ function! OnLoad()
 			"set guifont=Fira\ Code:h14
 		endif 
         "override
-        nmap <d-f> :<C-U>call InsertAfter(v:count1)<CR>
+        nmap <D-f> <Plug>(easymotion-s2) 
 
 		"set guifont=Meslo\ LG\ S\ for\ Powerline:h14
 		"<D-d>
