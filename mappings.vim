@@ -13,9 +13,9 @@ endwhile
 
 
 "mouse 
-nmap <MiddleMouse> :redraw<CR>
-"nmap <MiddleMouse> i
-"imap <MiddleMouse> <ESC>
+"nmap <MiddleMouse> :redraw<CR>
+nmap <MiddleMouse> i
+imap <MiddleMouse> <ESC>
 "
 "speical insert
 nmap <RightMouse> <F12>
@@ -49,7 +49,7 @@ nnoremap <leader>' ``
 nmap ~ <c-a>c
 noremap m? ?
 nmap ? <Plug>(easymotion-sl)
-nmap <D-/> <Plug>(easymotion-fl)
+nmap <D-/> <Plug>(easymotion-tl)
 
 
 :nnoremap s :exec "normal i".nr2char(getchar())."\e"<CR>
@@ -59,6 +59,7 @@ nmap <D-/> <Plug>(easymotion-fl)
 "nnoremap F f
 "nmap S :<C-U>call InsertAfter(v:count1)<CR>
 nmap q <Plug>(easymotion-s)
+"The <D-t> provides omni tl-search 
 
 nmap <D-f> <Plug>(easymotion-s2)
 
@@ -106,7 +107,7 @@ if g:on_ek_computer
 endif
 nmap _. :cd ..<CR>
 nmap _- :cd -<CR>
-"previous file
+"previous window
 nmap _P :wprevious<CR>
 nmap _N :wnext<CR>
 
@@ -116,6 +117,10 @@ map __ <leader>Cc
 map _+ <leader>Cu
 "Alternative buffer
 map _# :e #<CR>
+
+"Previous and next visited buffer \<c-o> of course
+"nmap <c-[> <bar><DOWN><CR>
+"nmap <D-[> <bar><UP><CR>
 
 nmap _t :exe "tabn ".g:lasttab<CR>
 "Coc _ mappings 
@@ -135,6 +140,7 @@ nnoremap <silent> _j  :<C-u>CocNext<CR>
 nnoremap <silent> _k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> _p  :<C-u>CocListResume<CR>
+
 noremap _b :bnext<CR>
 noremap _B :bprev<CR>
 
@@ -219,6 +225,7 @@ function! Teasy()
         normal l
     endif 
 endfunction
+
 imap <D-f> <c-o><Plug>(easymotion-s2)
 imap <c-.> <c-o><Plug>(easymotion-s)
 imap <c-t> <c-o>:call Teasy()<CR>
@@ -291,7 +298,7 @@ inoremap  <c-k> <c-x><c-k>
 inoremap <m-c-k> <c-k>
 inoremap <c-f> <c-x><c-n>
 "imap <c-z> <c-f><up><down>
-imap <c-z> <c-r>=SuperTab('n')<CR>
+"imap <c-z> <c-r>=SuperTab('n')<CR>
 "Greatness , completes the text with one type
 "Greatness
 
@@ -328,6 +335,7 @@ function! DoCz()
         return "\<c-f>"
     endif 
 endfunction 
+
 imap <c-z> <CMD>call DoCz()<CR> 
 imap <expr> <c-z> DoCz() 
 imap <M-Space> <c-o>
@@ -479,18 +487,21 @@ noremap \L L
 nnoremap <leader>M M
 nmap mL <Plug>(easymotion-lineanywhere)
 
-"paste new line
-"remove indent
-"
 function! MPf()
 	let @+ =substitute(@+,"\<NL>$","",'')
 	let @+ =substitute(@+,"^[ \t]*","",'')
 	exec "norm \"+]P"
 endfunction
 
+"paste new line
+"remove indent
+"
 nnoremap mp o<esc>:s/[^ \t]//ge<CR>:call MPf()<CR>
+nnoremap <expr> ]p @+ =~ ".*\n$" ?  "]p==" : "o<C-R>+<ESC>"
+nnoremap <expr> ]P @+ =~ ".*\n$" ?  "]P==" : "O<C-R>+<ESC>"
 
-
+"Move line to terminal
+nmap mz yy:T "
 
 
 "nnoremap <silent> mp :call Putline("]p")<CR>
@@ -536,6 +547,7 @@ nnoremap mws :CtrlSpaceSaveWorkspace<CR>
 nnoremap mwd :let g:overrideCWD=0<CR>:CtrlSpaceSaveWorkspace default<CR>let g:overrideCWD=1<CR>
 
 nmap m, :LeaderfLineCword<CR>
+nmap TT m,
 vnoremap T "xy:call feedkeys( ":LeaderfLine\<lt>CR>". @x ,'t')<CR>
 function! SpecialFindLeader(type)
   let &selection = "inclusive"
@@ -706,12 +718,12 @@ nnoremap <leader>Gpl :Dispatch! git pull<CR>
 map <silent> <leader>? <Plug>(IPy-WordObjInfo)
 " opens terminal in new window
 "
-noremap <leader>od :exec ":vs " . getcwd()<CR>
-nmap <leader>at :AutoSaveToggle<CR>
+noremap  <leader>od :exec ":vs " . getcwd()<CR>
 nnoremap <leader>em :call Exec("messages")<CR>
 "enable save
-nnoremap <leader>es :let b:auto_save = 1<CR>
-nnoremap <leader>ES :let b:auto_save = 0<CR>
+nnoremap <leader>es :let b:auto_save = !b:auto_save<CR>:echo "it is now ". b:auto_save<CR>
+nnoremap <leader>as :let b:save_inserts= !b:save_inserts<CR>:echo "it is now ". b:save_inserts<CR>
+nmap     <leader>at :AutoSaveToggle<CR>
 
 nnoremap <leader>do :diffoff<CR>
 nnoremap <leader>du :diffupdate<CR>
@@ -731,7 +743,7 @@ nmap <leader>of :vsp<CR>ml<D-Bslash>
 nmap <leader>OF :vsp<CR>mm
 "open python
 nmap <leader>op :sp <bar> :exec ':'. bufnr('\[jupyter\]') .'buffer'<CR><c-w>k
-
+nmap <leader>upd \ttupama
 
 nnoremap <leader>oi :call RecallInserts2()<CR>
 nnoremap <leader>ol :lopen<CR>
@@ -923,7 +935,7 @@ noremap <leader>Y "zyi
 "Bare mappings
 "changes current argument
 "omap i, ?[\,(]?e+1<CR>cv/[\,)]/s-1<CR>
-nmap ci, dv?[\,(]?e+1<CR>cv/[\,)]/s-1<CR>
+"nmap ci, dv?[\,(]?e+1<CR>cv/[\,)]/s-1<CR>
 "nmap di, dv?[\,(]?e+1<CR>dv/[\,)]/s-1<CR>
 
 
@@ -934,7 +946,7 @@ nnoremap Y :set incsearch<CR>/\c
 "nnoremap <C-[> :set incsearch<CR>/\c
 "vnoremap <nowait> af <Plug>(textobj-function-a) 
 "execute a function based on the current visual selection
-vnoremap H "xd"=HandleF()<CR>P
+vnoremap F "xd"=HandleF()<CR>P
 vnoremap <C-F> "xd"=HandleCF()<CR>p
 
 "execute a function based on the current visual selection but replace content of selection

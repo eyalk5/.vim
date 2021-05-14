@@ -319,7 +319,7 @@ if uu==1:
             "name": name+": Launch",
             "type": "python",
             "request": "launch",
-            "python": "/Library/Frameworks/Python.framework/Versions/3.7/bin/python3" ,
+            "python": "/Users/ekarni/.pyenv/versions/3.8.5/bin/python3" ,
             "cwd": dir,
             "stopOnEntry": "true",
             "console": "externalTerminal",
@@ -363,7 +363,7 @@ if uu==1:
             "name": name+": Launch",
             "type": "python",
             "request": "launch",
-            "python": "/Library/Frameworks/Python.framework/Versions/3.7/bin/python3" ,
+            "python": "/Users/ekarni/.pyenv/versions/2.7.18/bin/python2.7" ,
             "cwd": dir,
             "stopOnEntry": "true",
             "console": "externalTerminal",
@@ -371,8 +371,8 @@ if uu==1:
             "justMyCode":"true",
             "program": prog,
             "args":[],
-            "env" :
-            #{"PYTHONPATH":"/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/"}
+            #"env" :
+            #            {"PYTHONPATH":"/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/"}
           }
         }
       }

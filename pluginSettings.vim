@@ -430,6 +430,9 @@ let g:Lf_NormalMap ={
 			\} 
 
 
+"Make c-h , c-l a valid option in leaderf
+let g:Lf_CommandMap = {'<C-k>':['<C-h>'], '<C-j>':['<C-l>'], '<Down>': ['<C-j>','<Down>'], '<UP>': ['<C-k>','<UP>']}
+
 let g:Lf_MruMaxFiles=100000
 let g:Lf_ShowHidden  = 1
 let g:Lf_MaxCount = 50000
@@ -562,7 +565,8 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 let $NVIM_COC_LOG_LEVEL = 'debug'
 "that is a patch in coc that remove some files
 "let g:coc_files=' *.py,*.tex,*.vimrc '
-let g:coc_files=' * '
+let g:coc_files=' *.py '
+"let g:coc_files=' * '
 "
  "//"languageserver": {
  "//   "ccls": {

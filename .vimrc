@@ -36,6 +36,7 @@ exe 'source' . g:vimloc . "/vimsettings.vim"
 call plug#begin('~/.vim/plugged')
 "match inner blocks and z% 
 Plug 'andymass/vim-matchup'
+"Plug 'scrooloose/nerdtree'
 "match strings 
 Plug 'airblade/vim-matchquote'
 "Plug 'ggvgc/vim-fuzzysearch'
@@ -128,7 +129,7 @@ else
 	Plug 'vim-airline/vim-airline'
 endif
 Plug 'eiginn/netrw'
-Plug 'WolfgangMehner/bash-support'
+"Plug 'WolfgangMehner/bash-support'
 "Plug 'Shougo/deoplete.nvim' , { 'do': ':UpdateRemotePlugins' }
 call plug#end()
 "Plug 'ivanov/vim-ipython'

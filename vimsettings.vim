@@ -68,8 +68,8 @@ endif
 
 if g:on_ek_computer
 	let $PYENV_ROOT="/Users/eyalkarni/.pyenv"
-	let g:python_host_prog= "/Users/eyalkarni/.pyenv/shims/python"
-	let g:python3_host_prog= "/Users/eyalkarni/.pyenv/shims/python3"
+	let g:python_host_prog= "/Users/ekarni/.pyenv/versions/2.7.18/bin/python2.7"
+	let g:python3_host_prog= "/Users/ekarni/.pyenv/versions/3.8.5/bin/python3"
 endif
 "let g:yanktools_main_key = 'Z'
 ":20verbose
@@ -274,9 +274,9 @@ function! OnLoad()
 			vnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>gv
 			if g:on_ek_computer
                 source /Users/eyalkarni/neovim-0.4.2/runtime/macmap.vim 
-				nmap <leader>rv mwd:sleep 1<CR>:!osascript -e 'tell application "System Events" to keystroke "v" using {control down, shift down}'<CR>:qa!<CR>
-				nmap <leader>RV mwd:sleep 1<CR>:!osascript -e 'tell application "System Events" to keystroke "v" using {command down, shift down}'<CR>:qa!<CR> 
-				nmap <leader>Rv mwd:!osascript -e 'do shell script "sh /users/eyalkarni/vimpy3/vimqt2.sh <bar><bar> exit"'<CR>
+				"nmap <leader>rv mwd:sleep 1<CR>:!osascript -e 'tell application "System Events" to keystroke "v" using {control down, shift down}'<CR>:qa!<CR>
+				"nmap <leader>RV mwd:sleep 1<CR>:!osascript -e 'tell application "System Events" to keystroke "v" using {command down, shift down}'<CR>:qa!<CR> 
+				"nmap <leader>Rv mwd:!osascript -e 'do shell script "sh /users/eyalkarni/vimpy3/vimqt2.sh <bar><bar> exit"'<CR>
 			endif
 		else
 			"~/nvimMACfiles/macmap042.vim
@@ -288,13 +288,15 @@ function! OnLoad()
         "override
         nmap <D-f> <Plug>(easymotion-s2) 
 
+        imap <D-v> <c-o>P
+        nnoremap <Home> ^
+        vnoremap <Home> ^
 		"set guifont=Meslo\ LG\ S\ for\ Powerline:h14
-		"<D-d>
 "		set guifont=Monaco\ for\ Powerline:h12 
 		set mouse+=a
 		"nmap <D-S> :w<CR>
 		"nmap <D-s> :w<CR>
-		"nmap <D-V> p
+		nmap <D-v> p
 		"nmap <D-v> p
 		"imap <D-V> 
 		"imap <D-v> 

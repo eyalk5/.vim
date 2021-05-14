@@ -19,6 +19,7 @@ if &bt == '' || &bt == 'help' || &ft == 'netranger' "|| &bt == 'nofile'
 endif
 
 endfunction 
+
 augroup bufclosetrack
   au!
   autocmd BufWinLeave * call SaveLastWindow()
@@ -68,20 +69,22 @@ if len(b:inserts)==0
 	let b:inserts={}
 endif
 endfunction
-function! SaveLastInsert()
-	if !exists("b:save_inserts")
-		let b:save_inserts=1
-	endif 
- if !(b:save_inserts==1)
-	return 
- endif 
-	if mode()=='c'
-		return
-	endif
 
-	call AddInsert(@.)
-	"endif
+function! SaveLastInsert()
+    if !exists("b:save_inserts")
+        let b:save_inserts=1
+    endif 
+    if !(b:save_inserts==1)
+        return 
+    endif 
+    if mode()=='c'
+        return
+    endif
+
+    call AddInsert(@.)
+    "endif
 endfunction
+
 function! SaveLastCopy()
 	let reg= v:event['regname']
 	"echo v:event['regcontents']
@@ -406,6 +409,8 @@ endfunction
 let g:last_copied=""
 let g:init=0
 function! TimerFunc(a)
+    "updates shada files to keep current commands
+    wshada
     let minbu=MinExec(':buffers')
     "echom minbu
     "echo "called"
@@ -423,10 +428,10 @@ function! TimerFunc(a)
 "call ctrlspace#workspaces#SetActiveWorkspaceName('default')
     "Remember not to run in parallel
     if g:init==1
-	if exists(':GonvimWorkspaceNew')==2 || exists('g:GuiLoaded')
-		:silent :CtrlSpaceSaveWorkspace default
-	endif
-    "if g:init==0
+        if exists(':GonvimWorkspaceNew')==2 || exists('g:GuiLoaded')
+            :silent :CtrlSpaceSaveWorkspace default
+        endif
+        "if g:init==0
         "let g:init=1
         "call ToggleVerbose() 
     endif
@@ -442,10 +447,11 @@ function! TimerFunc(a)
 		let g:last_copied=@+
 	endif
 
-    "updates shada files to keep current commands
-    :wshada
 endfunction
 function! SaveLastReg()
+    if (b:save_inserts==0)
+        return
+    endif
     if v:event['regname']==""
         if v:event['operator']=='y'
             for i in range(8,1,-1)
